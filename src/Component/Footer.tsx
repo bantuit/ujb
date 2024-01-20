@@ -7,8 +7,8 @@ import { BsTelephone } from "react-icons/bs";
 
 const Footer = () => {
     return (
-        <div className='footer text-base-content flex flex-col items-center'>
-            <footer className="footer p-10 flex flex-wrap gap-y-10  justify-start lg:justify-around text-base-content">
+        <div className='footer text-base-content flex flex-col items-center mt-5'>
+            <footer className="footer p-10 flex flex-wrap gap-y-10 justify-start lg:justify-around text-base-content border-t-2">
                 <aside className='flex flex-col gap-10'>
                     <div>
                         <h1 className='font-bold text-xl'>PT. Urusan Jaga Banda</h1>
@@ -41,7 +41,7 @@ const Footer = () => {
                     <a className="link link-hover flex items-center gap-2"><HiOutlineMail /> urusanjagabanda20@gmail.com</a>
                     <a className="link link-hover flex items-center gap-2"><CgWebsite /> http://ujb.co.id</a>
                     <div className='flex gap-2 '>
-                        <IoLocationOutline className='text-5xl'/>
+                        <IoLocationOutline className='text-5xl' />
                         <a className="link link-hover "> JL. Sunter kemayoran No.45A, Sunter Jaya. kec. Tanjung Priok Kota Jakarta Utara 14350</a>
                     </div>
                 </nav>
