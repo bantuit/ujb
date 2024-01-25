@@ -1,4 +1,3 @@
-import React from 'react'
 import bar from '../../assets/bar.svg'
 
 const AlurRekruitment = () => {

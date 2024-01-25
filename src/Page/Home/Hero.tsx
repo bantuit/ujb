@@ -1,4 +1,3 @@
-import React from 'react'
 import { IoIosArrowRoundForward } from "react-icons/io";
 import Dot from '../../assets/Dot.svg'
 import Rectangle1 from '../../assets/rectangle1.svg'

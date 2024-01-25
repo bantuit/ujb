@@ -1,4 +1,3 @@
-import React from 'react';
 import { IoIosArrowRoundForward } from 'react-icons/io';
 import securityIcon from '../../assets/security.svg'
 import cleaningIcon from '../../assets/cleaning.svg'

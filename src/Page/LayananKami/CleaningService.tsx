@@ -1,5 +1,4 @@
-import React from 'react'
-    import city from '../../assets/city.svg'
+import city from '../../assets/city.svg'
 
 
 const CleaningService = () => {

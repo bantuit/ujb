@@ -1,4 +1,3 @@
-import React from 'react'
 import Iso1 from '../../assets/iso1.svg'
 import Iso2 from '../../assets/iso2.svg'
 import Iso3 from '../../assets/iso3.svg'

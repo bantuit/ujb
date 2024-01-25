@@ -1,4 +1,3 @@
-import React from 'react'
 import notFound from '../../assets/page-not-found.svg'
 
 const Getol = () => {
