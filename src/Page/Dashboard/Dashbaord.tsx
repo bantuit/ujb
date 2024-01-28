@@ -1,14 +1,19 @@
 import lamaranTerbaru from '../../assets/lowonganTerbaru.svg'
 import jumlahpelamar from '../../assets/jumlaPelamar.png'
-import lamaranDiproses from '../../assets/lamaranDiproses.png'
+import lamaranDiproses from '../../assets/proses.svg'
 import { LIST_LOWONGAN, LIST_PELAMAR } from '../../Const/Dashboard'
 import DropdownButton from '../../Component/DropdownBtn'
 import { BsDownload } from "react-icons/bs";
 import { IoEyeOutline } from "react-icons/io5";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { TiEdit } from "react-icons/ti";
+import { useNavigate } from 'react-router-dom'
+import ModalWrapper from '../../Component/ModalWrapper'
+import ModalHeader from '../../Component/ModalHeader'
+import ModalDelete from '../../Component/ModalDelete'
 
 const Dashbaord = () => {
+  const navigate = useNavigate()
 
   return (
     <div className="w-full h-fit px-2 space-y-5">
@@ -80,9 +85,9 @@ const Dashbaord = () => {
                       <td>{item.keterangan}</td>
                       <td>{item.waktu}</td>
                       <td className='flex flex-row gap-2'>
-                        <button className="btn btn-outline btn-sm rounded-sm btn-info border border-green-400"><IoEyeOutline className='text-black' /></button>
-                        <button className="btn btn-outline btn-sm rounded-sm btn-info border border-yellow-400"><TiEdit className='text-black' /></button>
-                        <button className="btn btn-outline btn-sm rounded-sm btn-info border border-red-400"><RiDeleteBin6Line className='text-black' /></button>
+                        <button className="btn btn-outline btn-sm rounded-sm btn-info border border-green-400 " onClick={() => navigate('/dashboard/detail-pelamar')}><IoEyeOutline className='text-black' /></button>
+                        <label htmlFor='open_modal' className="btn btn-outline btn-sm rounded-sm btn-info border border-yellow-400"><TiEdit className='text-black' /></label>
+                        <label htmlFor='delete' className="btn btn-outline btn-sm rounded-sm btn-info border border-red-400"><RiDeleteBin6Line className='text-black' /></label>
                       </td>
                     </tr>
                   )
@@ -96,9 +101,8 @@ const Dashbaord = () => {
       <div className="w-full h-fit bg-[#fff] rounded-md space-y-5 px-3 py-2">
         <p className="font-bold">List Lowongan</p>
         <div className="flex flex-row  gap-5">
-          <button className="btn bg-blue-500 text-xs btn-sm hover:bg-blue-600 text-white">Tambahkan Lowongan +</button>
+          <label htmlFor="open_modal" className="btn bg-blue-500 text-xs btn-sm hover:bg-blue-600 text-white">Tambahkan Lowongan +</label>
           <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
-          {/* <button className="btn btn-outline btn-sm btn-info">Info</button> */}
           <DropdownButton />
         </div>
         <div className="" >
@@ -134,8 +138,8 @@ const Dashbaord = () => {
                       })}
                       <td>{item.waktu}</td>
                       <td className='flex flex-row gap-2'>
-                        <button className="btn btn-outline btn-sm rounded-sm btn-info border border-yellow-400"><TiEdit className='text-black' /></button>
-                        <button className="btn btn-outline btn-sm rounded-sm btn-info border border-red-400"><RiDeleteBin6Line className='text-black' /></button>
+                        <label htmlFor='open_modal' className="btn btn-outline btn-sm rounded-sm btn-info border border-yellow-400"><TiEdit className='text-black' /></label>
+                        <label htmlFor='delete' className="btn btn-outline btn-sm rounded-sm btn-info border border-red-400"><RiDeleteBin6Line className='text-black' /></label>
                       </td>
                     </tr>
                   )
@@ -145,6 +149,41 @@ const Dashbaord = () => {
           </div>
         </div>
       </div>
+      <ModalWrapper id='open_modal'  >
+        <ModalHeader id='open_modal' title='Formulir Ubah Lowongan Kerja' />
+        <section className='my-4 space-y-2'>
+          <div >
+            <p className="py-1">Posisi</p>
+            <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
+          </div>
+          <div >
+            <p className="py-1">Kualifikasi</p>
+            <div className='space-y-2 h-32 overflow-y-auto'>
+              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
+              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
+              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
+              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
+              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
+            </div>
+          </div>
+          <div >
+            <p className="py-1">Jobdesk</p>
+            <div className='space-y-2 h-32 overflow-y-auto'>
+              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
+              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
+              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
+              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
+              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
+            </div>
+          </div>
+          <div className="modal-action">
+            <label htmlFor="open_modal" className="btn btn-outline text-xs px-5 hover:bg-gray-400 border hover:border-gray-500 border-gray-500 btn-sm">Batal</label>
+            <label className="btn btn-success text-white text-xs px-5 btn-sm">Ubah</label>
+          </div>
+        </section>
+      </ModalWrapper>
+      <ModalDelete posisi='Security' id='delete'/>
+
     </div>
   )
 }

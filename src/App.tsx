@@ -23,11 +23,12 @@ import LupaPassword from './Page/Login/LupaPassword'
 import DashboardLayout from './Page/Dashboard/index'
 import Dashboard from './Page/Dashboard/Dashbaord'
 import Profile from './Page/Dashboard/Profile'
+import DetailPelamar from './Page/Dashboard/DetailPelamar'
 
 
 
 function App() {
-  const hideNavbarAndFooterPaths = ['/login', '/lupa-password', '/dashboard', '/dashboard/profile'];
+  const hideNavbarAndFooterPaths = ['/login', '/lupa-password', '/dashboard', '/dashboard/profile', '/dashboard/detail-pelamar'];
 
   return (
     <BrowserRouter>
@@ -39,6 +40,7 @@ function App() {
         <Route path='dashboard' element={<DashboardLayout />}>
           <Route index element={<Dashboard />} />
           <Route path='profile'  element={<Profile />} />
+          <Route path='detail-pelamar'  element={<DetailPelamar />} />
         </Route>
         <Route path='tentang-kami' element={<TentangKamiParent />}>
           <Route index element={<TentangKami />} />

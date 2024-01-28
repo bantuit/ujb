@@ -1,9 +1,14 @@
+
 import { RxHamburgerMenu } from "react-icons/rx";
 
-const NavbarDashboard = () => {
+interface NavbarProps {
+  clickHandler: () => void;
+}
+
+const NavbarDashboard = ({clickHandler}: NavbarProps) => {
   return (
     <div className="w-full h-12 rounded-md bg-[#FFFFFF] flex px-2 items-center justify-between">
-      <RxHamburgerMenu />
+      <RxHamburgerMenu onClick={clickHandler} className="cursor-pointer" />
       <div className="w-[85%]">PT URUSAN JAGA BANDA</div>
       <div className="flex flex-row justify-center items-center">
         <div className="avatar placeholder">
