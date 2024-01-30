@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 
 interface PaginationProps {
-  items: any[]; // Replace 'any[]' with the actual type of your items
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  items:any[]; // Replace 'any[]' with the actual type of your items
   itemsPerPage: number;
 }
 
@@ -80,7 +81,7 @@ const Pagination: React.FC<PaginationProps> = ({ items, itemsPerPage }) => {
       {/* Render your current items here */}
       <ul>
         {currentItems.map((item, index) => (
-          <li key={index}>{/* Render your item content here */}</li>
+          <li key={index}>i{item}</li>
         ))}
       </ul>
 

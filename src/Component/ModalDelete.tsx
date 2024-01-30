@@ -1,4 +1,3 @@
-import React from 'react'
 import ModalWrapper from './ModalWrapper'
 import circleDelete from '../assets/circleDelete.svg'
 import deleteImg from '../assets/deleteImg.svg'
@@ -11,6 +10,7 @@ interface ModalProps {
 
 
 const ModalDelete = ({ id, posisi }: ModalProps) => {
+    console.log(posisi)
     return (
         <ModalWrapper id={id}>
             <div className='w-full flex justify-end'>
