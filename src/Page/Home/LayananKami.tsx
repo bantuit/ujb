@@ -3,8 +3,6 @@ import securityIcon from '../../assets/security.svg'
 import cleaningIcon from '../../assets/cleaning.svg'
 import ParkirIcon from '../../assets/parkir.svg'
 import getolIcon from '../../assets/getol.svg'
-import Rectangle1 from '../../assets/rectangle1.svg'
-import Rectangle2 from '../../assets/rectangle2.svg'
 
 
 const LayananKami = () => {
@@ -65,8 +63,6 @@ const LayananKami = () => {
           </div>
         </div>
       </div>
-      <img className='absolute left-20 top-80 -md:right-20 md:top-[150vh]  ' src={Rectangle2} alt="" />
-      <img className='absolute left-0 top-60 md:left-0 lg:top-[150vh] ' src={Rectangle1} alt="" />
     </div>
   );
 };

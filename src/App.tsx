@@ -28,7 +28,7 @@ import DetailPelamar from './Page/Dashboard/DetailPelamar'
 
 
 function App() {
-  const hideNavbarAndFooterPaths = ['/login', '/lupa-password', '/dashboard', '/dashboard/profile', '/dashboard/detail-pelamar'];
+  const hideNavbarAndFooterPaths = ['/','/login', '/lupa-password', '/dashboard', '/dashboard/profile', '/dashboard/detail-pelamar'];
 
   return (
     <BrowserRouter>

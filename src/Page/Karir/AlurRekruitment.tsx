@@ -1,22 +1,37 @@
-import bar from '../../assets/bar.svg'
+import { useEffect, useState } from 'react';
+import alurRekruitment from '../../assets/alurSeleksi.png'
+import alurRekruitmentMd from '../../assets/alurSeleksiMd.png'
+import alurRekruitmentSm from '../../assets/alurSeleksiSm.png'
 
 const AlurRekruitment = () => {
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  let selectedImage;
+  if (screenWidth <= 414) {
+    selectedImage = alurRekruitmentSm;
+  } else if (screenWidth <= 884) {
+    selectedImage = alurRekruitmentMd;
+  } else {
+    selectedImage = alurRekruitment;
+  }
+
   return (
-    <div className='h-screen flex flex-col justify-start pt-10 items-center gap-10'>
+    <div className='h-fit flex flex-col justify-start pt-10 items-center gap-10'>
       <h1 className='text-4xl font-extrabold'>Alur Rekruitment</h1>
-      <div className='bg-red-400 w-full h-full grid grid-col-1 md:flex md:flex-row md:items-center  '>
-        <img className='w-48 md:w-24' src={bar} alt="" />
-        <img className='w-48 md:w-24 md:relative md:right-20 md:top-16' src={bar} alt="" />
-        <div className='md:relative bg-blue-400 h-fit'>
-          <img className='w-48 md:w-24 md:relative md:right-32 md:top-32 ' src={bar} alt="" />
-          <img className='w-48 md:w-24 md:relative md:right-8  md:top-16' src={bar} alt="" />
-          <img className='w-48 md:w-24 md:relative md:left-20  ' src={bar} alt="" />
-        </div>
-        <img className='w-48 md:w-24 md:relative md:left-10 md:top-16' src={bar} alt="" />
-        <div className='md:relative bg-blue-400 h-fit'>
-          <img className='w-48 md:w-24 md:relative md:right-2 md:top-20' src={bar} alt="" />
-          <img className='w-48 md:w-24 md:relative md:left-44  md:top-16' src={bar} alt="" />
-        </div>
+      <div className='w-full h-fit grid grid-col-1 md:flex md:flex-row md:items-center'>
+        <img src={selectedImage} alt="" className='w-full' />
       </div>
     </div>
   )

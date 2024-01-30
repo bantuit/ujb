@@ -2,14 +2,14 @@ import logo from '../assets/logo.jpg'
 
 const Navbar = () => {
     return (
-        <div className="navbar bg-base-100 flex justify-end z-20">
+        <div className="navbar bg-transparent flex justify-end z-20 ">
             <div className="navbar-start w-full">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
                     </div>
                     <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-20 p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><a href='/'>Home</a></li>
+                        <li><a href='/' className='text-bold'>Home</a></li>
                         <li>
                             <a>Tentang Kami</a>
                             <ul className="p-2">
@@ -42,13 +42,13 @@ const Navbar = () => {
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                    <li><a href='/'>Home</a></li>
+                    <li><a href='/' className='font-bold'>Home</a></li>
                     <li>
                         <details>
-                            <summary>
+                            <summary className='font-bold'>
                                 Tentang Kami
                             </summary>
-                            <ul className="p-2 bg-base-100 rounded-t-none">
+                            <ul className="p-2 bg-base-100 rounded-t-none z-20">
                                 <li><a href='/tentang-kami'>Tentang Kami</a></li>
                                 <li><a href='/tentang-kami/visi-dan-misi'>Visi dan Misi</a></li>
                                 <li><a href='/tentang-kami/komitment'>Komitment</a></li>
@@ -58,10 +58,10 @@ const Navbar = () => {
                     </li>
                     <li>
                         <details>
-                            <summary>
+                            <summary className='font-bold'>
                                 Layanan Kami
                             </summary>
-                            <ul className="p-2 bg-base-100 rounded-t-none">
+                            <ul className="p-2 bg-base-100 rounded-t-none z-20">
                                 <li><a href='/layanan-kami/security-centeng'>Security Centeng</a></li>
                                 <li><a href='/layanan-kami/cleaning-service'>Cleaning Service</a></li>
                                 <li><a href='/layanan-kami/jawara-parkir'>Jawara Parkir</a></li>
@@ -71,16 +71,16 @@ const Navbar = () => {
                     </li>
                     <li>
                         <details>
-                            <summary>
+                            <summary className='font-bold'>
                                 Karir
                             </summary>
-                            <ul className="p-2 bg-base-100 rounded-t-none">
+                            <ul className="p-2 bg-base-100 rounded-t-none ">
                                 <li><a href='/karir/alur-rekruitment'>Alur Rekruitment</a></li>
                                 <li><a href='/karir/lowongan-kerja'>Lowongan Kerja</a></li>
                             </ul>
                         </details>
                     </li>
-                    <li><a href='/hubungi-kami'>Hubungi Kami</a></li>
+                    <li><a href='/hubungi-kami' className='font-bold'>Hubungi Kami</a></li>
                 </ul>
             </div>
         </div>
