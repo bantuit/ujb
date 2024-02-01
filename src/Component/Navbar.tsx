@@ -1,4 +1,4 @@
-import logo from '../assets/logo.jpg'
+import logo from '../assets/logo-svg.svg'
 
 const Navbar = () => {
     return (
@@ -36,15 +36,16 @@ const Navbar = () => {
                             </ul>
                         </li>
                         <li><a href='/hubungi-kami'>Hubungi Kami</a></li>
+                        <li><a href='/hubungi-kami'>Hubungi Kami</a></li>
                     </ul>
                 </div>
                 <a className="btn btn-ghost text-xl"><img className='w-16' src={logo} alt="" /></a>
             </div>
             <div className="navbar-center hidden lg:flex">
-                <ul className="menu menu-horizontal px-1">
-                    <li><a href='/' className='font-bold'>Home</a></li>
+                <ul className="menu menu-horizontal px-1 space-x-10">
+                    <li><a href='/' className='font-bold '>Home</a></li>
                     <li>
-                        <details>
+                        <details className='w-44'>
                             <summary className='font-bold'>
                                 Tentang Kami
                             </summary>
@@ -57,7 +58,7 @@ const Navbar = () => {
                         </details>
                     </li>
                     <li>
-                        <details>
+                        <details className='w-44'>
                             <summary className='font-bold'>
                                 Layanan Kami
                             </summary>
@@ -70,7 +71,7 @@ const Navbar = () => {
                         </details>
                     </li>
                     <li>
-                        <details>
+                        <details className='w-28'>
                             <summary className='font-bold'>
                                 Karir
                             </summary>
@@ -80,7 +81,8 @@ const Navbar = () => {
                             </ul>
                         </details>
                     </li>
-                    <li><a href='/hubungi-kami' className='font-bold'>Hubungi Kami</a></li>
+                    <li><a href='/hubungi-kami' className='font-bold '>Hubungi Kami</a></li>
+                    <li><a href='/hubungi-kami' className='font-bold w-44'>Hubungi Kami</a></li>
                 </ul>
             </div>
         </div>

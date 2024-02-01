@@ -11,9 +11,64 @@ import { useNavigate } from 'react-router-dom'
 import ModalWrapper from '../../Component/ModalWrapper'
 import ModalHeader from '../../Component/ModalHeader'
 import ModalDelete from '../../Component/ModalDelete'
+import { useEffect, useState } from 'react'
+import dashboardService from '../../Services/Api/DashboardService'
+import { useCookies } from 'react-cookie'
+
 
 const Dashbaord = () => {
   const navigate = useNavigate()
+  const [cookies, setCookie] = useCookies(['token'])
+
+
+  const [posisi, setPosisi] = useState<string>('')
+
+  const [countKualifikasi, setCountKualifikasi] = useState<number>(0);
+  const [countJobdesk, setCountJobdesk] = useState<number>(0);
+  const [inputValues, setInputValues] = useState<string[]>(Array.from({ length: countKualifikasi }, () => ''));
+  const [inputJobdesk, setInputJobdesk] = useState<string[]>(Array.from({ length: countJobdesk }, () => ''));
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const newInputValues = [...inputValues];
+    newInputValues[index] = event.target.value;
+    setInputValues(newInputValues);
+  };
+  const handleInputChangeJobdesk = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const newInputValues = [...inputJobdesk];
+    newInputValues[index] = event.target.value;
+    setInputJobdesk(newInputValues);
+  };
+
+  const handleAddClick = () => {
+    setCountKualifikasi(countKualifikasi + 1);
+    setInputValues([...inputValues, '']);
+  };
+  const handleAddClickJobdesk = () => {
+    setCountJobdesk(countJobdesk + 1);
+    setInputJobdesk([...inputJobdesk, '']);
+  };
+
+
+  useEffect(() => {
+    console.log(posisi)
+    console.log(inputValues)
+    console.log(inputJobdesk)
+  }, [inputValues,inputJobdesk,posisi])
+
+
+  const save = async () => {
+    // setIsLoading(true);
+    try {
+        const body: Partial<any> = {
+            posisi: posisi,
+            kualifikasi: inputValues,
+            jobdesk: inputJobdesk,
+        }
+        await dashboardService.CreateLowongan(cookies.token, body);
+    } finally { /* empty */ }
+};
+
+
 
   return (
     <div className="w-full h-fit px-2 space-y-5">
@@ -154,35 +209,49 @@ const Dashbaord = () => {
         <section className='my-4 space-y-2'>
           <div >
             <p className="py-1">Posisi</p>
-            <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
+            <input type="text" placeholder="Type here" onChange={(e) => setPosisi(e.target.value)} className="input input-bordered input-sm w-full max-w-xs" />
           </div>
           <div >
             <p className="py-1">Kualifikasi</p>
-            <div className='space-y-2 h-32 overflow-y-auto'>
-              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
-              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
-              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
-              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
-              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
+            <div className='space-y-2 h-32 overflow-y-auto flex flex-col'>
+              <div className='space-y-2 h-32 overflow-y-auto flex flex-col'>
+                {inputValues.map((value, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    placeholder="Type here"
+                    value={value}
+                    onChange={(e) => handleInputChange(e, index)}
+                    className="input input-bordered input-sm w-full max-w-xs"
+                  />
+                ))}
+                <button onClick={handleAddClick} className='bg-blue-500 text-white max-w-xs rounded-md'>add+</button>
+              </div>
             </div>
           </div>
           <div >
             <p className="py-1">Jobdesk</p>
-            <div className='space-y-2 h-32 overflow-y-auto'>
-              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
-              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
-              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
-              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
-              <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
-            </div>
+            <div className='space-y-2 h-32 overflow-y-auto flex flex-col'>
+                {inputJobdesk.map((value, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    placeholder="Type here"
+                    value={value}
+                    onChange={(e) => handleInputChangeJobdesk(e, index)}
+                    className="input input-bordered input-sm w-full max-w-xs"
+                  />
+                ))}
+                <button onClick={handleAddClickJobdesk} className='bg-blue-500 text-white max-w-xs rounded-md'>add+</button>
+              </div>
           </div>
           <div className="modal-action">
             <label htmlFor="open_modal" className="btn btn-outline text-xs px-5 hover:bg-gray-400 border hover:border-gray-500 border-gray-500 btn-sm">Batal</label>
-            <label className="btn btn-success text-white text-xs px-5 btn-sm">Ubah</label>
+            <label className="btn btn-success text-white text-xs px-5 btn-sm" onClick={save}>Ubah</label>
           </div>
         </section>
       </ModalWrapper>
-      <ModalDelete posisi='Security' id='delete'/>
+      <ModalDelete posisi='Security' id='delete' />
 
     </div>
   )

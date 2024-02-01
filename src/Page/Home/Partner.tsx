@@ -10,15 +10,22 @@ import NusaKirana from '../../assets/nusa-kirana.svg';
 import SPV from '../../assets/spv.svg';
 import Nisson from '../../assets/nisson.svg';
 import BgPartner from '../../assets/bg-partner.png';
+import Pertamina from '../../assets/Pertamina.png';
+import balaiKeselamatan from '../../assets/balai-keselamatan.png';
+import alamSampurna from '../../assets/alam-sampurna.png';
+import holywings from '../../assets/holywings_169.png';
+import pollux from '../../assets/pollux.png';
+import labklinik from '../../assets/labklinik.jpg';
 
 const Partner = () => {
   return (
-    <div className="h-fit mb-44 w-full flex flex-col items-center  ">
-      <img src={BgPartner} alt="" className='absolute -z-10'/>
-      <h1 className="font-bold text-5xl pt-10">Partner Kami</h1>
+    <div className="h-fit lg:mb-44 w-full flex flex-col items-center bg-[#F3F1F1] ">
+      <img src={BgPartner} alt="" className='absolute h-[50%] bg-[#F3F1F1]  '/>
+      <h1 className="font-bold text-4xl md:text-6xl pt-10 z-20">Partner Kami</h1>
       <div className="w-full h-full flex justify-center items-center gap-3 flex-wrap p-10 ">
         <Swiper
           modules={[Pagination, A11y]}
+          className='cursor-pointer'
           spaceBetween={50}
           slidesPerView={5}
           pagination={{ clickable: true }}
@@ -50,19 +57,22 @@ const Partner = () => {
             <img src={Nisson} alt="" className='h-28'/>
           </SwiperSlide>
           <SwiperSlide className="h-44 flex justify-center items-center">
-            <img src={SPV} alt="" />
+            <img src={Pertamina} alt="" className='h-28'/>
+          </SwiperSlide>
+          <SwiperSlide className="h-auto flex justify-center items-center">
+            <img src={balaiKeselamatan} alt="" className='w-32' />
           </SwiperSlide>
           <SwiperSlide className="h-44 flex justify-center items-center">
-            <img src={SPV} alt="" />
+            <img src={alamSampurna} alt="" className='w-28' />
           </SwiperSlide>
           <SwiperSlide className="h-44 flex justify-center items-center">
-            <img src={SPV} alt="" />
+            <img src={holywings} alt="" className='w-48' />
           </SwiperSlide>
           <SwiperSlide className="h-44 flex justify-center items-center">
-            <img src={SPV} alt="" />
+            <img src={pollux} alt="" className='w-28' />
           </SwiperSlide>
           <SwiperSlide className="h-44 flex justify-center items-center">
-            <img src={SPV} alt="" />
+            <img src={labklinik } alt="" />
           </SwiperSlide>
         </Swiper>
       </div>

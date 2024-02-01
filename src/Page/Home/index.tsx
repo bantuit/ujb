@@ -10,17 +10,16 @@ import Footer from '../../Component/Footer'
 
 const index = () => {
     return (
-        <>
-            <img src={latar} alt="bg" className='absolute w-full -z-10 -top-8' />
+        <div>
+            <img src={latar} alt="bg" className='absolute w-full -z-10 -top-8 ' />
             <Navbar/>
-            {/* <Hero /> */}
             <Summary />
             <LayananKami />
             <Partner />
             <Legalitas />
             <Email />
             <Footer/>
-        </>
+        </div>
     )
 }
 
