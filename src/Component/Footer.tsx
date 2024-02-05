@@ -6,8 +6,8 @@ import { BsTelephone } from "react-icons/bs";
 
 const Footer = () => {
     return (
-        <div className='footer text-base-content flex flex-col items-center mt-5'>
-            <footer className="footer p-10 flex flex-wrap gap-y-10 justify-start lg:justify-around text-base-content border-t-2">
+        <div className='footer text-base-content flex flex-col items-center bg-[#F3F1F1] z-20 '>
+            <footer className="footer p-10 flex flex-wrap gap-y-10 justify-start lg:justify-around text-base-content z-20">
                 <aside className='flex flex-col gap-10'>
                     <div>
                         <h1 className='font-bold text-xl'>PT. Urusan Jaga Banda</h1>
@@ -19,16 +19,15 @@ const Footer = () => {
                         <FaLinkedin />
                     </div>
                 </aside>
-                <nav>
-                    <header className=" font-bold text-black">Halaman</header>
-                    <a className="link link-hover">Beranda</a>
-                    <a className="link link-hover">Tentang Kami</a>
-                    <a className="link link-hover">Layanan</a>
-                    <a className="link link-hover">Partner Kami</a>
-                    <a className="link link-hover">Legalitas Perusahaan </a>
-                    <a className="link link-hover">Hubungi Kami</a>
-                    <a className="link link-hover">Parner</a>
-                </nav>
+                    <nav>
+                        <header className=" font-bold text-black">Halaman</header>
+                        <a href="/" className="link link-hover">Beranda</a>
+                        <a href="/tentang-kami" className="link link-hover">Tentang Kami</a>
+                        <a href="/layanan-kami/security-centeng" className="link link-hover">Layanan</a>
+                        <a href="#partner" className="link link-hover">Partner Kami</a>
+                        <a href="#legalitas" className="link link-hover">Legalitas Perusahaan </a>
+                        <a href="/hubungi-kami" className="link link-hover">Hubungi Kami</a>
+                    </nav>
                 <nav>
                     <header className="font-bold text-black">Berita</header>
                     <a className="link link-hover">SDM</a>
@@ -45,7 +44,7 @@ const Footer = () => {
                     </div>
                 </nav>
             </footer >
-            <div className='mb-4'>© 2024 PT. Urusan Jaga Banda</div>
+            <div className='mb-4 z-20'>© 2024 PT. Urusan Jaga Banda</div>
         </div>
     )
 }

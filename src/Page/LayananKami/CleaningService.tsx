@@ -1,12 +1,15 @@
-import city from '../../assets/city.svg'
+import cleaning1 from '../../assets/cleaning1.png'
+import cleaning2 from '../../assets/cleaning2.png'
+import cleaning3 from '../../assets/cleaning3.png'
+import cleaning4 from '../../assets/cleaning4.png'
 
 
 const CleaningService = () => {
     return (
         <div>
-            <div className='w-full h-fit lg:h-fit flex flex-col justify-start gap-10 items-center space-y-5 py-20'>
-                <h1 className='text-4xl font-extrabold'>Tentang Kami</h1>
-                <div className='w-full  flex justify-between px-5 lg:px-10 items-start md:flex-row flex-col-reverse md:lex-row font-bold text-[#698E94] '>
+            <div className='w-full h-fit lg:h-fit flex flex-col justify-start gap-10 items-center space-y-5 py-20 z-20'>
+                <h1 className='text-4xl font-extrabold z-20'>Tentang Kami</h1>
+                <div className='w-full  flex justify-between px-5 lg:px-10 items-start md:flex-row flex-col-reverse md:lex-row font-bold text-black z-20 '>
                     <div className='w-full md:w-1/2 flex justify-center flex-col space-y-8  '>
                         <p>Kami membentuk jasa layanan kebersihaan dan perawatan gedung dengan nama kinclong
                             fasility service.</p>
@@ -27,15 +30,14 @@ const CleaningService = () => {
                         </div>
                     </div>
                     <div className='w-full md:w-1/3 flex justify-center px-10 md:px-0 mb-16 md:mb-0'>
-                        <div className='relative w-72 lg:w-full rounded-lg top-10 lg:top-28 h-36 lg:h-52 bg-[#4FA6D133]'></div>
-                        <img className='absolute w-1/2 md:w-1/4 ' src={city} alt="" />
+                        <img className='w-full md:w-full ' src={cleaning1} alt="" />
                     </div>
                 </div>
             </div>
-            <div className='w-full h-fit lg:h-fit px-5 md:px-10 flex flex-col justify-start gap-10 items-center space-y-5 py-10'>
-                <h1 className='text-4xl font-extrabold'>Visi dan Misi</h1>
-                <div className='w-full flex items-start font-bold text-[#698E94] '>
-                    <div className='w-full md:px-0 flex  flex-col space-y-8  '>
+            <div className='w-full h-fit lg:h-fit px-5 md:px-10 flex flex-col justify-start gap-10 items-center space-y-5 py-10 z-20'>
+                <h1 className='text-4xl font-extrabold z-20'>Visi dan Misi</h1>
+                <div className='w-full flex items-start font-bold text-black '>
+                    <div className='w-full md:px-0 flex  flex-col space-y-8  z-20'>
                         <ul>
                             <p className='font-bold text-2xl'>VISI</p>
                             <li className='list-disc ml-7 w-full lg:w-1/2'>Menjadi perusahaan penyedia jasa perwatan dan pemeliharaan kebersihan terpercaya dan
@@ -54,9 +56,9 @@ const CleaningService = () => {
                     </div>
                 </div>
             </div>
-            <div className='w-full h-fit lg:h-fit flex flex-col justify-start gap-10 items-start px-5 space-y-5 pt-10'>
+            <div className='w-full h-fit lg:h-fit flex flex-col justify-start gap-10 items-start px-5 space-y-5 pt-10 z-20'>
                 <h1 className='text-4xl font-extrabold'>Sarana Penunjang</h1>
-                <div className='flex w-full justify-evenly items-start md:items-center lg:flex-row flex-col-reverse font-bold text-[#698E94]   '>
+                <div className='flex w-full justify-evenly items-start md:items-center lg:flex-row flex-col-reverse font-bold text-black z-20 '>
                     <div className='w-full px-5 md:px-0 md:w-full flex justify-center flex-col space-y-8  '>
                         <p className='lg:w-[50vw]'>Management profesional PT.Urusan Jaga Banda menawarkan untuk memenuhi kebutuhan
                             pemakai jasa agar lebih dapat memperoleh efisiensi biaya,meningkatkan produktifitas dan
@@ -65,8 +67,6 @@ const CleaningService = () => {
                             tenaga kerja. Kami menjadi solusi dalam hal kebutuhan tenaga kerja yang dibutuhkan oleh
                             perusahaan/kantor di berbagai bidang
                             .</p>
-                        {/* <p className='lg:w-[50vw]'>Perusahaan yang berdiri pada tanggal 01 Desember 2020 didukung dengan  sarana fasilitas lengkap serta sistem teknologi yang menyesuaikan dengan kebutuhan pengguna jasa.</p> */}
-                        {/* <p>Sampai dengan saat ini PT. UJB menjalankan 4 (Empat) Bidang jasa, diantaranya :</p> */}
                         <div>Beberapa penawaran kami, yaitu :</div>
                         <div className='w-fit h-1/2 grid grid-cols-2 gap-2  '>
                             <div className='space-y-5'>
@@ -138,16 +138,16 @@ const CleaningService = () => {
                         </div>
                     </div>
                     <div className='w-fit h-fit md:w-1/2 grid grid-cols-2 justify-start items-center px-10 md:px-0 gap-3 mb-10 md:mb-0'>
-                        <img className='w-32 md:w-full rounded-lg' src={city} alt="" />
-                        <img className='w-32 md:w-full rounded-lg' src={city} alt="" />
-                        <img className='w-32 md:w-full rounded-lg' src={city} alt="" />
-                        <img className='w-32 md:w-full rounded-lg' src={city} alt="" />
+                        <img className='w-32 md:w-full rounded-lg' src={cleaning2} alt="" />
+                        <img className='w-32 md:w-full rounded-lg' src={cleaning1} alt="" />
+                        <img className='w-32 md:w-full rounded-lg' src={cleaning3} alt="" />
+                        <img className='w-32 md:w-full rounded-lg' src={cleaning4} alt="" />
                     </div>
                 </div>
             </div>
             <div className='w-full h-fit lg:h-fit px-5 md:px-10 flex flex-col justify-start gap-10 items-center space-y-5 py-10'>
                 <h1 className='text-4xl font-extrabold'>Quality Management System</h1>
-                <div className='w-full flex items-start font-bold text-[#698E94] '>
+                <div className='w-full flex items-start font-bold text-black '>
                     <div className='w-full md:px-0 flex  flex-col space-y-8  '>
                         <div>
                             <li className='list-none'>Beberapa alur dalam quality management system :</li>

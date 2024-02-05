@@ -1,9 +1,9 @@
 
 const VisiMisi = () => {
   return (
-    <div className='w-full h-fit lg:h-screen px-10 flex flex-col justify-start gap-10 items-center space-y-5 pt-10'>
-      <h1 className='text-5xl font-extrabold'>Visi dan Misi Perusahaan</h1>
-      <div className='flex items-start font-bold text-[#698E94] '>
+    <div className='w-full h-fit lg:h-screen px-10 flex flex-col justify-start gap-10 items-center space-y-5 pt-10 z-20'>
+      <h1 className='text-5xl font-extrabold z-20'>Visi dan Misi Perusahaan</h1>
+      <div className='flex items-start font-bold text-black z-20 '>
         <div className='w-full md:px-0 flex  flex-col space-y-8  '>
           <ul>
             <p className='font-bold text-2xl'>VISI</p>

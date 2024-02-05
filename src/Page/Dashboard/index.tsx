@@ -12,7 +12,7 @@ const Dashboard = () => {
 
     return (
         <div className='w-full h-screen flex flex-row gap-2 bg-[#EFEFF4] p-2'>
-            <SideBar condition={navbar} />
+            <SideBar closeSidebar={HandleClickFunc} condition={navbar} />
             <div className='w-full overflow-y-auto space-y-2    '>
                 <NavbarDashboard clickHandler={HandleClickFunc}/>
                 <div className='w-full overflow-x-auto   mt-3'>

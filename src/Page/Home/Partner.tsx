@@ -19,8 +19,8 @@ import labklinik from '../../assets/labklinik.jpg';
 
 const Partner = () => {
   return (
-    <div className="h-fit lg:mb-44 w-full flex flex-col items-center bg-[#F3F1F1] ">
-      <img src={BgPartner} alt="" className='absolute h-[50%] bg-[#F3F1F1]  '/>
+    <div id='partner' className="h-fit w-full flex flex-col items-center bg-[#F3F1F1] ">
+      <img src={BgPartner} alt="" className='absolute h-fit w-full z-0 bg-[#F3F1F1]  '/>
       <h1 className="font-bold text-4xl md:text-6xl pt-10 z-20">Partner Kami</h1>
       <div className="w-full h-full flex justify-center items-center gap-3 flex-wrap p-10 ">
         <Swiper
@@ -56,8 +56,8 @@ const Partner = () => {
           <SwiperSlide className="h-44 flex justify-center items-center">
             <img src={Nisson} alt="" className='h-28'/>
           </SwiperSlide>
-          <SwiperSlide className="h-44 flex justify-center items-center">
-            <img src={Pertamina} alt="" className='h-28'/>
+          <SwiperSlide className="h-44  flex justify-center items-center">
+            <img src={Pertamina} alt="" className='h-16 lg:h-28'/>
           </SwiperSlide>
           <SwiperSlide className="h-auto flex justify-center items-center">
             <img src={balaiKeselamatan} alt="" className='w-32' />

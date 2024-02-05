@@ -6,10 +6,11 @@ import { IoCloseSharp } from "react-icons/io5";
 interface ModalProps {
     id: string
     posisi: string
+    deleteData: () => void
 }
 
 
-const ModalDelete = ({ id, posisi }: ModalProps) => {
+const  ModalDelete = ({ id, posisi, deleteData }: ModalProps) => {
     console.log(posisi)
     return (
         <ModalWrapper id={id}>
@@ -26,7 +27,7 @@ const ModalDelete = ({ id, posisi }: ModalProps) => {
                 <p className='text-center text-sm'>Jika anda menghapus list lowongan kerja dengan nama lengkap putra. Maka anda akan kehilangan nama lengkap putra .</p>
                 <div className='space-x-3'>
                     <label htmlFor={id} className="btn btn-sm btn-outline text-gray-500 font-thin px-5 border-gray-500 ">Batal</label>
-                    <button className="btn btn-sm btn-error text-white font-thin px-5">Delete</button>
+                    <button className="btn btn-sm btn-error text-white font-thin px-5" onClick={deleteData}>Delete</button>
                 </div>
             </div>
         </ModalWrapper>

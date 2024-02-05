@@ -28,11 +28,11 @@ import DetailPelamar from './Page/Dashboard/DetailPelamar'
 
 
 function App() {
-  const hideNavbarAndFooterPaths = ['/','/login', '/lupa-password', '/dashboard', '/dashboard/profile', '/dashboard/detail-pelamar'];
+  // const hideNavbarAndFooterPaths = ['/','/login', '/lupa-password', '/dashboard', '/dashboard/profile', '/dashboard/detail-pelamar'];
 
   return (
     <BrowserRouter>
-      {!hideNavbarAndFooterPaths.includes(window.location.pathname) && <Navbar />}
+      {/* {!hideNavbarAndFooterPaths.includes(window.location.pathname) && <Navbar />} */}
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
@@ -61,7 +61,7 @@ function App() {
         </Route>
         <Route path='/hubungi-kami' element={<HubungiKami />} />
       </Routes>
-      {!hideNavbarAndFooterPaths.includes(window.location.pathname) && <Footer />}
+      {/* {!hideNavbarAndFooterPaths.includes(window.location.pathname) && <Footer />} */}
     </BrowserRouter>
   )
 }

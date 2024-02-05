@@ -1,7 +1,7 @@
 
 const Email = () => {
     return (
-        <div className='px-3 md:px-16'>
+        <div className='px-3 md:px-16 bg-[#F3F1F1]'>
             <div className='w-full h-fit rounded-3xl bg-[#006FC0] p-5 flex flex-col md:flex-row flex-wrap justify-center md:gap-2 space-y-5'>
                 <div className='w-full md:w-1/3 space-y-4 '>
                     <p className='font-extrabold text-mdxl text-white'> Bekerjasama dengan tim kami</p>

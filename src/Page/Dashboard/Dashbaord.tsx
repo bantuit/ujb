@@ -1,7 +1,7 @@
 import lamaranTerbaru from '../../assets/lowonganTerbaru.svg'
 import jumlahpelamar from '../../assets/jumlaPelamar.png'
 import lamaranDiproses from '../../assets/proses.svg'
-import { LIST_LOWONGAN, LIST_PELAMAR } from '../../Const/Dashboard'
+import { ACTIVITY_COUNT, LIST_PELAMAR } from '../../Const/Dashboard'
 import DropdownButton from '../../Component/DropdownBtn'
 import { BsDownload } from "react-icons/bs";
 import { IoEyeOutline } from "react-icons/io5";
@@ -14,24 +14,30 @@ import ModalDelete from '../../Component/ModalDelete'
 import { useEffect, useState } from 'react'
 import dashboardService from '../../Services/Api/DashboardService'
 import { useCookies } from 'react-cookie'
+import { ActivityCountType, createLowonganType, listLowonganType, listPelamarType } from '../../Type/DashboardType'
+import { queryparamsType } from '../../Type/PaginationType'
 
 
 const Dashbaord = () => {
-  const navigate = useNavigate()
-  const [cookies, setCookie] = useCookies(['token'])
+  const [listPelamar] = useState<listPelamarType[]>(LIST_PELAMAR)
+  const [activityCount, setActivityCount] = useState<ActivityCountType>(ACTIVITY_COUNT)
+  const navigate = useNavigate();
+  const [cookies] = useCookies(['token']);
+  const [dataLowongan, setDataLowongan] = useState([])
+  const [id, setId] = useState('')
+  const [searchTerm, SetsearchTerm] = useState('')
 
-
-  const [posisi, setPosisi] = useState<string>('')
+  const [posisi, setPosisi] = useState<string>('');
 
   const [countKualifikasi, setCountKualifikasi] = useState<number>(0);
   const [countJobdesk, setCountJobdesk] = useState<number>(0);
-  const [inputValues, setInputValues] = useState<string[]>(Array.from({ length: countKualifikasi }, () => ''));
+  const [kualifikasiValues, setKualifikasiValues] = useState<string[]>(Array.from({ length: countKualifikasi }, () => ''));
   const [inputJobdesk, setInputJobdesk] = useState<string[]>(Array.from({ length: countJobdesk }, () => ''));
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const newInputValues = [...inputValues];
+    const newInputValues = [...kualifikasiValues];
     newInputValues[index] = event.target.value;
-    setInputValues(newInputValues);
+    setKualifikasiValues(newInputValues);
   };
   const handleInputChangeJobdesk = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newInputValues = [...inputJobdesk];
@@ -41,33 +47,92 @@ const Dashbaord = () => {
 
   const handleAddClick = () => {
     setCountKualifikasi(countKualifikasi + 1);
-    setInputValues([...inputValues, '']);
+    setKualifikasiValues([...kualifikasiValues, '']);
   };
   const handleAddClickJobdesk = () => {
     setCountJobdesk(countJobdesk + 1);
     setInputJobdesk([...inputJobdesk, '']);
   };
-
-
   useEffect(() => {
-    console.log(posisi)
-    console.log(inputValues)
-    console.log(inputJobdesk)
-  }, [inputValues,inputJobdesk,posisi])
+    console.log(posisi);
+    console.log(kualifikasiValues);
+    console.log(inputJobdesk);
+  }, [kualifikasiValues, inputJobdesk, posisi]);
 
+  const getData = async (token: string, queryparams:queryparamsType) => {
+    try {
+      const response = await dashboardService.listLowongan(token, queryparams)
+      setDataLowongan(response.data.data)
+      console.log('g', response.data)
+    } finally { /* empty */ }
+  }
 
   const save = async () => {
     // setIsLoading(true);
     try {
-        const body: Partial<any> = {
-            posisi: posisi,
-            kualifikasi: inputValues,
-            jobdesk: inputJobdesk,
-        }
-        await dashboardService.CreateLowongan(cookies.token, body);
-    } finally { /* empty */ }
-};
+      const kualifikasiData = kualifikasiValues.map(function (item) {
+        return { item: item };
+      });
+      const jobdeskData = inputJobdesk.map(function (item) {
+        return { item: item };
+      });
 
+      const body: createLowonganType = {
+        posisi: posisi,
+        kualifikasi: kualifikasiData,
+        jobdesk: jobdeskData,
+      };
+      await dashboardService.CreateLowongan(cookies.token, body);
+    } finally {
+      /* empty */
+    }
+  };
+
+  const deleteFunc = () => {
+    console.log(id)
+    try {
+      dashboardService.deleteLowongan(cookies.token, id)
+    } finally { /* empty */ }
+  }
+
+  const getActivity = async () => {
+    try {
+      const response = await dashboardService.GetActivityCount(cookies.token)
+      setActivityCount(response.data.data)
+    } finally { /* empty */ }
+  }
+  // const getPelamar = () => {
+  //   try {
+  //     const params: Partial<Params> = {
+  //       PageSize: 1,
+  //       PageNumber: 10,
+  //     }
+  //     dashboardService.ListPelamar(cookies.token, params)
+  //     // setListPelamar(response.data.data)
+  //   } finally { /* empty */ }
+  // }
+
+  useEffect(() => {
+    const queryparams = {
+      searchTerm: searchTerm,
+      PageSize: 10,
+      PageNumber: 1
+    }
+    getData(cookies.token, queryparams)
+
+  }, [searchTerm])
+
+  useEffect(() => {
+    const queryparams = {
+      searchTerm: '',
+      PageSize: 10,
+      PageNumber: 1
+    }
+    getData(cookies.token, queryparams)
+    // console.log('f', dataLowongan)
+    getActivity()
+    // getPelamar()
+  }, [])
 
 
   return (
@@ -79,7 +144,7 @@ const Dashbaord = () => {
             <img className='w-7 h-7' src={lamaranTerbaru} alt="" />Lowongan Terbaru
           </div>
           <div className="font-bold text-5xl">
-            5
+            {activityCount?.loker_terbaru}
           </div>
         </div>
         <div className=" h-32 border-4 drop-shadow-lg border-[#12AE57] bg-[#fff] grid grid-rows-2 p-3">
@@ -87,7 +152,7 @@ const Dashbaord = () => {
             <img className='w-7 h-7' src={jumlahpelamar} alt="" /> Jumlah Pelamar
           </div>
           <div className="font-bold text-5xl">
-            25
+            {activityCount?.jumlah_pelamar}
           </div>
         </div>
         <div className=" h-32 border-4 drop-shadow-lg border-[#FFC000] bg-[#fff]  grid grid-rows-2 p-3">
@@ -95,7 +160,7 @@ const Dashbaord = () => {
             <img className='w-7 h-7' src={lamaranDiproses} alt="" /> Lamaran Yang Diproses
           </div>
           <div className="font-bold text-5xl">
-            10
+            {activityCount?.lamaran}
           </div>
         </div>
       </div>
@@ -124,9 +189,9 @@ const Dashbaord = () => {
                 </tr>
               </thead>
               <tbody>
-                {LIST_PELAMAR.map((item, index) => {
+                {listPelamar?.map((item, index) => {
                   return (
-                    <tr className="bg-base-200">
+                    <tr key={index} className="bg-base-200">
                       <th>{index + 1}</th>
                       <td>{item.posisi}</td>
                       <td>{item.nama_lengkap}</td>
@@ -142,7 +207,7 @@ const Dashbaord = () => {
                       <td className='flex flex-row gap-2'>
                         <button className="btn btn-outline btn-sm rounded-sm btn-info border border-green-400 " onClick={() => navigate('/dashboard/detail-pelamar')}><IoEyeOutline className='text-black' /></button>
                         <label htmlFor='open_modal' className="btn btn-outline btn-sm rounded-sm btn-info border border-yellow-400"><TiEdit className='text-black' /></label>
-                        <label htmlFor='delete' className="btn btn-outline btn-sm rounded-sm btn-info border border-red-400"><RiDeleteBin6Line className='text-black' /></label>
+                        <label htmlFor='delete' onClick={() => setId(item.id)} className="btn btn-outline btn-sm rounded-sm btn-info border border-red-400"><RiDeleteBin6Line className='text-black' /></label>
                       </td>
                     </tr>
                   )
@@ -157,8 +222,8 @@ const Dashbaord = () => {
         <p className="font-bold">List Lowongan</p>
         <div className="flex flex-row  gap-5">
           <label htmlFor="open_modal" className="btn bg-blue-500 text-xs btn-sm hover:bg-blue-600 text-white">Tambahkan Lowongan +</label>
-          <input type="text" placeholder="Type here" className="input input-bordered input-sm w-full max-w-xs" />
-          <DropdownButton />
+          <input type="text" placeholder="Type here" onChange={(e) => SetsearchTerm(e.target.value)} className="input input-bordered input-sm w-full max-w-xs" />
+          {/* <DropdownButton /> */}
         </div>
         <div className="" >
           <div className="overflow-x-auto">
@@ -174,27 +239,30 @@ const Dashbaord = () => {
                 </tr>
               </thead>
               <tbody>
-                {LIST_LOWONGAN.map((item, index) => {
+                {dataLowongan?.map((item: listLowonganType, index) => {
                   return (
-                    <tr className="bg-base-200">
+                    <tr key={index} className="bg-base-200">
                       <th>{index + 1}</th>
                       <td>{item.posisi}</td>
-                      <td className='flex flex-col'>
-                        {item.kualifikasi.map((item, index) => {
+                      <td key={index} className='
+                      '>
+                        {item.kualifikasi.map((item: string, index: number) => {
                           return (
-                            <td>{index + 1}. {item.item}</td>
+                            <div>{index + 1}. {item}</div>
                           )
                         })}
                       </td>
-                      {item.jobdesk.map((item, index) => {
-                        return (
-                          <td>{index + 1}. {item.item}</td>
-                        )
-                      })}
+                      <td key={index} >
+                        {item.jobdesk.map((item: string, index) => {
+                          return (
+                            <div >{index + 1}. {item}</div>
+                          )
+                        })}
+                      </td>
                       <td>{item.waktu}</td>
                       <td className='flex flex-row gap-2'>
                         <label htmlFor='open_modal' className="btn btn-outline btn-sm rounded-sm btn-info border border-yellow-400"><TiEdit className='text-black' /></label>
-                        <label htmlFor='delete' className="btn btn-outline btn-sm rounded-sm btn-info border border-red-400"><RiDeleteBin6Line className='text-black' /></label>
+                        <label className="btn btn-outline btn-sm rounded-sm btn-info border border-red-400"><RiDeleteBin6Line className='text-black' /></label>
                       </td>
                     </tr>
                   )
@@ -205,7 +273,7 @@ const Dashbaord = () => {
         </div>
       </div>
       <ModalWrapper id='open_modal'  >
-        <ModalHeader id='open_modal' title='Formulir Ubah Lowongan Kerja' />
+        <ModalHeader id='open_modal' title='Formulir Tambah Lowongan Kerja' />
         <section className='my-4 space-y-2'>
           <div >
             <p className="py-1">Posisi</p>
@@ -215,7 +283,7 @@ const Dashbaord = () => {
             <p className="py-1">Kualifikasi</p>
             <div className='space-y-2 h-32 overflow-y-auto flex flex-col'>
               <div className='space-y-2 h-32 overflow-y-auto flex flex-col'>
-                {inputValues.map((value, index) => (
+                {kualifikasiValues.map((value, index) => (
                   <input
                     key={index}
                     type="text"
@@ -232,27 +300,26 @@ const Dashbaord = () => {
           <div >
             <p className="py-1">Jobdesk</p>
             <div className='space-y-2 h-32 overflow-y-auto flex flex-col'>
-                {inputJobdesk.map((value, index) => (
-                  <input
-                    key={index}
-                    type="text"
-                    placeholder="Type here"
-                    value={value}
-                    onChange={(e) => handleInputChangeJobdesk(e, index)}
-                    className="input input-bordered input-sm w-full max-w-xs"
-                  />
-                ))}
-                <button onClick={handleAddClickJobdesk} className='bg-blue-500 text-white max-w-xs rounded-md'>add+</button>
-              </div>
+              {inputJobdesk.map((value, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  placeholder="Type here"
+                  value={value}
+                  onChange={(e) => handleInputChangeJobdesk(e, index)}
+                  className="input input-bordered input-sm w-full max-w-xs"
+                />
+              ))}
+              <button onClick={handleAddClickJobdesk} className='bg-blue-500 text-white max-w-xs rounded-md'>add+</button>
+            </div>
           </div>
           <div className="modal-action">
             <label htmlFor="open_modal" className="btn btn-outline text-xs px-5 hover:bg-gray-400 border hover:border-gray-500 border-gray-500 btn-sm">Batal</label>
-            <label className="btn btn-success text-white text-xs px-5 btn-sm" onClick={save}>Ubah</label>
+            <label className="btn btn-success text-white text-xs px-5 btn-sm" onClick={save}>Tambah</label>
           </div>
         </section>
       </ModalWrapper>
-      <ModalDelete posisi='Security' id='delete' />
-
+      <ModalDelete posisi='Security' id='delete' deleteData={deleteFunc} />
     </div>
   )
 }

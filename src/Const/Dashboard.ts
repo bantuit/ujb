@@ -1,4 +1,8 @@
-import { listLowonganType, listPelamarType } from "../Type/DashboardType";
+import {
+  ActivityCountType,
+  listLowonganType,
+  listPelamarType,
+} from "../Type/DashboardType";
 
 export const LIST_PELAMAR: listPelamarType[] = [
   {
@@ -30,43 +34,27 @@ export const LIST_LOWONGAN: listLowonganType[] = [
   {
     id: "adbakhsdbadbhacasd",
     posisi: "programer",
-    kualifikasi: [
-        {
-            item:"pendidikan Min SLTA"
-        },
-        {
-            item:"usia Max 25 Tahun"
-        },
-        {
-            item:"Belum Menikah"
-        },
-    ],
-    jobdesk: [
-        {
-            item:"Jaga keamanan 24 Jam"
-        }
-    ],
+    kualifikasi: ["pendidikan Min SLTA"],
+    jobdesk: ["Jaga keamanan 24 Jam"],
     waktu: "20-01-2024 08:40:05",
   },
   {
     id: "adbakhsdbadbhacasd",
     posisi: "programer",
-    kualifikasi: [
-        {
-            item:"pendidikan Min SLTA"
-        },
-        {
-            item:"usia Max 25 Tahun"
-        },
-        {
-            item:"Belum Menikah"
-        },
-    ],
-    jobdesk: [
-        {
-            item:"Jaga keamanan 24 Jam"
-        }
-    ],
+    kualifikasi: ["pendidikan Min SLTA"],
+    jobdesk: ["Jaga keamanan 24 Jam"],
+    waktu: "20-01-2024 08:40:05",
+  },
+  {
+    id: "adbakhsdbadbhacasd",
+    posisi: "programer",
+    kualifikasi: ["pendidikan Min SLTA"],
+    jobdesk: ["Jaga keamanan 24 Jam"],
     waktu: "20-01-2024 08:40:05",
   },
 ];
+export const ACTIVITY_COUNT: ActivityCountType = {
+  loker_terbaru: 23,
+  jumlah_pelamar: 12,
+  lamaran: 22,
+};

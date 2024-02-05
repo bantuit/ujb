@@ -4,7 +4,10 @@ import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 import authServices from '../../Services/Api/LoginService'
 
-
+type LoginType = {
+    username:string,
+    password:string
+}
 
 const Login = () => {
     const navigate = useNavigate()
@@ -16,13 +19,13 @@ const Login = () => {
     const save = async () => {
         // setIsLoading(true);
         try {
-            const body: Partial<any> = {
+            const body:LoginType = {
                 username: username,
                 password: password,
             }
             const response = await authServices.login(body);
-    
-            setCookie('token', JSON.stringify(response.data.token), { path: "/" });
+            console.log(response.data.data.accessToken)
+            setCookie('token', JSON.stringify(response.data.data.accessToken), { path: "/" });
             navigate('/dashboard')
             // console.log(cookies.token);
         } finally {
@@ -46,7 +49,6 @@ const Login = () => {
                         <input type="password" placeholder="Type here" onChange={(e) => setPassword(e.target.value)} className="input input-bordered input-sm w-full " />
                     </div>
                     <button className="w-64 btn btn-sm bg-[#12AE57] text-white btn-success" onClick={save}>Masuk</button>
-                    <button className="btn btn-link" onClick={() => navigate('/lupa-password')}>Lupa Pasword?</button>
                 </div>
             </div>
         </div>

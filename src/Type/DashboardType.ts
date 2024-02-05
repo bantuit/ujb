@@ -12,8 +12,8 @@ export interface listPelamarType {
 }
 [];
 
-export interface listLowonganType {
-  id: string;
+export interface createLowonganType {
+  id?: string;
   posisi: string;
   kualifikasi: {
     item: string;
@@ -21,6 +21,21 @@ export interface listLowonganType {
   jobdesk: {
     item: string;
   }[];
+
+}
+[];
+
+export interface listLowonganType {
+  id: string;
+  posisi: string;
+  kualifikasi: [string];
+  jobdesk: [string];
   waktu: string;
 }
 [];
+
+export interface ActivityCountType {
+  loker_terbaru: number;
+  jumlah_pelamar: number;
+  lamaran: number;
+}

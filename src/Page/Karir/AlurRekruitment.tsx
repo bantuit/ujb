@@ -28,10 +28,10 @@ const AlurRekruitment = () => {
   }
 
   return (
-    <div className='h-fit flex flex-col justify-start pt-10 items-center gap-10'>
-      <h1 className='text-4xl font-extrabold'>Alur Rekruitment</h1>
+    <div className='h-fit flex flex-col justify-start items-center pt-10 z-20 bg-[#F3F1F1] '>
+      <h1 className='text-4xl font-extrabold z-20'>Alur Rekruitment</h1>
       <div className='w-full h-fit grid grid-col-1 md:flex md:flex-row md:items-center'>
-        <img src={selectedImage} alt="" className='w-full' />
+        <img src={selectedImage} alt="" className='w-full z-20' />
       </div>
     </div>
   )

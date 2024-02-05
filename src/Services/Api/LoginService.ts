@@ -1,8 +1,8 @@
 import { baseUrl } from "../BaseUrl/index";
 
 
-const login = async (body:any) => {
-  return baseUrl.post(`/api/login`, body);
+const login = async (body:{username:string, password:string}) => {
+  return baseUrl.post(`/api/authentication`, body);
 };
 
 const authServices = {  
