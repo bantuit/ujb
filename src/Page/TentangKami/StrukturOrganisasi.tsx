@@ -28,7 +28,7 @@ const StrukturOrganisasi = () => {
   }
 
   return (
-    <div className='h-fit flex flex-col justify-start items-center pt-10 z-20 bg-[#F3F1F1] '>
+    <div className='h-fit flex flex-col justify-start items-center pt-10 z-20'>
       <h1 className='text-4xl font-extrabold z-20'>Alur Rekruitment</h1>
       <div className='w-full h-fit grid grid-col-1 justify-center md:flex md:flex-row md:items-center z-20'>
         <img src={selectedImage} alt="" className='w-auto h-[900px] md:h-[700px] z-20' />

@@ -26,6 +26,13 @@ const deleteLowongan = async (token: string,id:string) => {
     }
   });
 };
+const deletePelamar = async (token: string,id:string) => {
+  return baseUrl.delete(`/api/requirement/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+};
 
 const GetActivityCount = async (token: string) => {
   return baseUrl.get(`/api/dashboard`, {
@@ -34,11 +41,27 @@ const GetActivityCount = async (token: string) => {
     },
   });
 };
-const ListPelamar = async (token: string, queryparmas:{PageSize:number,PageNumber:number}) => {
-  return baseUrl.get(`/api/tambah-lowongan`, {
-    params: queryparmas,
+const ListPelamar = async (token: string, queryparams?:queryparamsType) => {
+  return baseUrl.get(`/api/requirement`, {
+    params: queryparams,
     headers: {
       Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+const dropdowPosisi = async (token: string) => {
+  return baseUrl.get(`/api/requirement/dropdown-position`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+const downloadLampiran = async (lampiran:string) => {
+  return baseUrl.get(`/api/requirement/download/${lampiran}`, {
+    headers: {
+      'Content-Type': 'application/pdf'
     },
   });
 };
@@ -48,7 +71,10 @@ const dashboardService = {
   listLowongan,
   deleteLowongan,
   GetActivityCount,
-  ListPelamar
+  ListPelamar,
+  deletePelamar,
+  dropdowPosisi,
+  downloadLampiran
 };
 
 export default dashboardService;

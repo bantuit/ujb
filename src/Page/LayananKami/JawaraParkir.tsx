@@ -7,19 +7,19 @@ import parkir3 from '../../assets/parkir3.png'
 const JawaraParkir = () => {
     return (
         <div>
-            <div className='w-full h-fit lg:h-fit flex flex-col justify-start gap-10 items-center space-y-5 py-20'>
+            <div className='w-full h-fit lg:h-fit flex flex-col justify-start gap-10 items-center space-y-5 py-20 md:text-white'>
                 <h1 className='text-4xl font-extrabold z-20'>Tentang Kami</h1>
-                <div className='w-full  flex justify-between px-5 lg:px-10 items-start md:flex-row flex-col-reverse md:lex-row font-bold text-black z-20'>
-                    <div className='w-full md:w-1/2 flex justify-center flex-col space-y-8  '>
+                <div className='w-full  flex justify-between px-5 lg:px-10 items-start md:flex-row flex-col md:lex-row font-bold z-20'>
+                    <div className='w-full md:w-1/3 flex justify-center px-10 md:px-0 mb-16 md:mb-0'>
+                        <img className=' w-full md:w-full ' src={parkir1} alt="" />
+                    </div>
+                    <div className='w-full md:w-[60vw] flex justify-center flex-col space-y-8  '>
                         <p>Jawara parkir adalah perusahaan swasta nasional yang bergerak di bidang Suplier dan Jasa. Seiring dengan pengembangan pembangunan di indonesia khususnya  di kota kota besar.</p>
                         <p>JAWARA PARKIR juga mengembangan perusahaan dengan membentuk divisi divisi dalam
                             menyiasati dunia bisnis yang semakin kompetitif.</p>
                         <p>Dalam mewujudkan visi dan misi perusahaan, kami jawara parkir selalu berusaha berperan
-                            akktif dan memberikan kontribusi maksimal dalam memberikan pelayanan secra profesional
+                            aktif dan memberikan kontribusi maksimal dalam memberikan pelayanan secara profesional
                             untuk mewujudkan harapan pihak Management Building.</p>
-                    </div>
-                    <div className='w-full md:w-1/3 flex justify-center px-10 md:px-0 mb-16 md:mb-0'>
-                        <img className=' w-full md:w-full ' src={parkir1} alt="" />
                     </div>
                 </div>
             </div>

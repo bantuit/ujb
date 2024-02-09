@@ -6,10 +6,10 @@ import { BsTelephone } from "react-icons/bs";
 
 const Footer = () => {
     return (
-        <div className='footer text-base-content flex flex-col items-center bg-[#F3F1F1] z-20 '>
-            <footer className="footer p-10 flex flex-wrap gap-y-10 justify-start lg:justify-around text-base-content z-20">
+        <div className='kaki px-10 pt-44 md:pt-44  mt-10 footer text-white flex flex-col items-center z-20 '>
+            <footer className="footer flex flex-wrap gap-y-10 justify-start lg:justify-around z-20 ">
                 <aside className='flex flex-col gap-10'>
-                    <div>
+                    <div className="space-y-5"> 
                         <h1 className='font-bold text-xl'>PT. Urusan Jaga Banda</h1>
                         <p className='w-80'>perusahaan yang bergerak di bidang pelayanan jasa dan sedang berkembang pesat dalam melayani kebutuhan jasa di seluruh Indonesia</p>
                     </div>
@@ -20,7 +20,7 @@ const Footer = () => {
                     </div>
                 </aside>
                     <nav>
-                        <header className=" font-bold text-black">Halaman</header>
+                        <header className=" font-bold mb-3">Halaman</header>
                         <a href="/" className="link link-hover">Beranda</a>
                         <a href="/tentang-kami" className="link link-hover">Tentang Kami</a>
                         <a href="/layanan-kami/security-centeng" className="link link-hover">Layanan</a>
@@ -29,12 +29,12 @@ const Footer = () => {
                         <a href="/hubungi-kami" className="link link-hover">Hubungi Kami</a>
                     </nav>
                 <nav>
-                    <header className="font-bold text-black">Berita</header>
+                    <header className="font-bold mb-3">Berita</header>
                     <a className="link link-hover">SDM</a>
                     <a className="link link-hover">Rekruitment</a>
                 </nav>
                 <nav className='w-44'>
-                    <header className="font-bold text-black">Contact</header>
+                    <header className="font-bold mb-3">Contact</header>
                     <a className="link link-hover flex items-center gap-2"><BsTelephone /> 021 - 2265 2417</a>
                     <a className="link link-hover flex items-center gap-2"><HiOutlineMail /> urusanjagabanda20@gmail.com</a>
                     <a className="link link-hover flex items-center gap-2"><CgWebsite /> http://ujb.co.id</a>
@@ -44,7 +44,7 @@ const Footer = () => {
                     </div>
                 </nav>
             </footer >
-            <div className='mb-4 z-20'>© 2024 PT. Urusan Jaga Banda</div>
+            <div className='mb-4 z-20 border-t w-full flex justify-center pt-3'>© 2024 PT. Urusan Jaga Banda</div>
         </div>
     )
 }

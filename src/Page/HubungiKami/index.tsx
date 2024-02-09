@@ -2,15 +2,13 @@ import { IoLocationOutline } from "react-icons/io5";
 import { CgWebsite } from "react-icons/cg";
 import { HiOutlineMail } from "react-icons/hi";
 import { BsTelephone } from "react-icons/bs";
-import BgPartner from '../../assets/bg-partner.png';
 import Navbar from '../../Component/Navbar';
 import Footer from '../../Component/Footer';
 
 
 const index = () => {
   return (
-    <div className='h-fit flex flex-col justify-start items-center gap-10 '>
-      <img src={BgPartner} alt="" className='absolute h-full w-full z-0 bg-[#F3F1F1]  ' />
+    <div className='hubungi h-fit flex flex-col justify-start items-center gap-10 '>
       <Navbar />
       <h1 className='text-4xl font-extrabold z-10 '>Hubungi Kami</h1>
       <div className='w-full flex flex-col-reverse md:flex-row flex-wrap gap-5 justify-center md:justify-start px-5 lg:px-20 z-10'>

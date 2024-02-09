@@ -6,7 +6,7 @@ import bkpm from '../../assets/bkmp.svg'
 
 const Legalitas = () => {
     return (
-        <div id='legalitas' className='w-full h-fit bg-[#F3F1F1] flex flex-col lg:flex-row flex-wrap px-20 py-20 lg:py-56 space-y-5'>
+        <div id='legalitas' className='w-full h-fit flex flex-col lg:flex-row flex-wrap px-20 py-20 lg:py-56 space-y-5'>
             <div className='h-full w-full lg:w-1/2 '>
                 <div className='font-bold text-5xl lg:w-full mb-10 space-y-5 flex flex-col justify-center lg:justify-start items-center  lg:items-start'>
                     <p>Legalitas</p>

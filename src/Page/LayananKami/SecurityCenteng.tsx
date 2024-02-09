@@ -6,9 +6,9 @@ import img1 from '../../assets/img1.png'
 const SecurityCenteng = () => {
     return (
         <div>
-            <div className='w-full h-fit lg:h-fit flex flex-col justify-start gap-10 items-center space-y-5 py-20'>
+            <div className='w-full h-screen lg:h-screen flex flex-col justify-start gap-28 items-center space-y-5 py-20 lg:text-white'>
                 <h1 className='text-4xl font-extrabold z-20'>Tentang Kami</h1>
-                <div className='w-full h-[30%] flex justify-center gap-5 px-5 lg:px-10 items-center lg:flex-row flex-col  font-bold text-black z-20 '>
+                <div className='w-full h-[30%] flex justify-center gap-20 px-5 lg:px-10 items-center lg:flex-row flex-col font-bold z-20 '>
                     <div className='w-full md:w-1/3 flex justify-center px-10 md:px-0 mb-16 md:mb-0'>
                         <img className=' w-full md:w-full ' src={security1} alt="" />
                     </div>

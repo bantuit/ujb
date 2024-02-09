@@ -4,3 +4,60 @@
 *{
     font-family: 'Poppins', sans-serif;
 }
+
+
+.home {
+    height: 140vh;
+    background-image: url('../src/assets/bg-ujb1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+#partner {
+    height: 90vh;
+    background-image: url('../src/assets/bg-partner.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.tentang-kami { 
+    background-image: url('../src/assets/bg2.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.layanan {
+    background-image: url('../src/assets/bg2.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.karir {
+    height: 80vh;
+    background-image: url('../src/assets/bg-partner.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.hubungi {
+    height: 80vh;
+    background-image: url('../src/assets/bg-partner.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.kaki {
+    background-image: url('../src/assets/bg-footer.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#legalitas {
+    background-image: url('../src/assets/bg-legalitas.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+

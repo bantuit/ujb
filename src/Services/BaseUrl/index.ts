@@ -1,7 +1,10 @@
 import Axios, { AxiosInstance } from 'axios';
 
+const ujb_url = 'https://ujb.biz.id'
+// const url = 'https://righttealboard7.conveyor.cloud'
+
 export const baseUrl: AxiosInstance = Axios.create({
-  baseURL: 'http://192.168.94.178:45455',
+  baseURL: ujb_url,
   headers: {
     'Content-type': 'application/json'
   }

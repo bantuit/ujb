@@ -9,18 +9,22 @@ import SMP from '../../assets/semen-merah-putih.svg';
 import NusaKirana from '../../assets/nusa-kirana.svg';
 import SPV from '../../assets/spv.svg';
 import Nisson from '../../assets/nisson.svg';
-import BgPartner from '../../assets/bg-partner.png';
 import Pertamina from '../../assets/Pertamina.png';
 import balaiKeselamatan from '../../assets/balai-keselamatan.png';
-import alamSampurna from '../../assets/alam-sampurna.png';
 import holywings from '../../assets/holywings_169.png';
 import pollux from '../../assets/pollux.png';
 import labklinik from '../../assets/labklinik.jpg';
+import alamSampurna from '../../assets/asm.png';
+import bw from '../../assets/bw.png';
+import kmk from '../../assets/kmk.png';
+import mppt from '../../assets/mppt.png';
+import hmi from '../../assets/hmi.png';
+import sms from '../../assets/sms.png';
+import faruq from '../../assets/faruq.jpg';
 
 const Partner = () => {
   return (
-    <div id='partner' className="h-fit w-full flex flex-col items-center bg-[#F3F1F1] ">
-      <img src={BgPartner} alt="" className='absolute h-fit w-full z-0 bg-[#F3F1F1]  '/>
+    <div id='partner' className="h-fit w-full flex flex-col items-center ">
       <h1 className="font-bold text-4xl md:text-6xl pt-10 z-20">Partner Kami</h1>
       <div className="w-full h-full flex justify-center items-center gap-3 flex-wrap p-10 ">
         <Swiper
@@ -37,11 +41,11 @@ const Partner = () => {
               slidesPerView: 3,
             },
             360: {
-              slidesPerView: 2,
+              slidesPerView: 1,
             },
           }}
         >
-          <SwiperSlide className="h-44 flex justify-center items-center">
+          <SwiperSlide className="h-52 flex justify-center items-center">
             <img src={jeklingko} alt=""  />
           </SwiperSlide>
           <SwiperSlide className="h-44 flex justify-center items-center">
@@ -59,11 +63,11 @@ const Partner = () => {
           <SwiperSlide className="h-44  flex justify-center items-center">
             <img src={Pertamina} alt="" className='h-16 lg:h-28'/>
           </SwiperSlide>
-          <SwiperSlide className="h-auto flex justify-center items-center">
-            <img src={balaiKeselamatan} alt="" className='w-32' />
+          <SwiperSlide className=" flex justify-center items-center">
+            <img src={balaiKeselamatan} alt="" className='w-36' />
           </SwiperSlide>
-          <SwiperSlide className="h-44 flex justify-center items-center">
-            <img src={alamSampurna} alt="" className='w-28' />
+          <SwiperSlide className="w-auto flex justify-center items-center">
+            <img src={alamSampurna} alt="" className='w-96' />
           </SwiperSlide>
           <SwiperSlide className="h-44 flex justify-center items-center">
             <img src={holywings} alt="" className='w-48' />
@@ -73,6 +77,24 @@ const Partner = () => {
           </SwiperSlide>
           <SwiperSlide className="h-44 flex justify-center items-center">
             <img src={labklinik } alt="" />
+          </SwiperSlide>
+          <SwiperSlide className="h-44 flex justify-center items-center">
+            <img src={bw } alt="" />
+          </SwiperSlide>
+          <SwiperSlide className="h-44 flex justify-center items-center">
+            <img src={kmk } alt="" />
+          </SwiperSlide>
+          <SwiperSlide className="h-44 flex justify-center items-center">
+            <img src={mppt } alt="" />
+          </SwiperSlide>
+          <SwiperSlide className="h-44 flex justify-center items-center">
+            <img src={hmi } alt="" className='w-44' />
+          </SwiperSlide>
+          <SwiperSlide className="h-44 flex justify-center items-center">
+            <img src={sms } alt="" />
+          </SwiperSlide>
+          <SwiperSlide className="h-44 flex justify-center items-center">
+            <img src={faruq } alt="" />
           </SwiperSlide>
         </Swiper>
       </div>

@@ -2,12 +2,24 @@ export interface listPelamarType {
   id: string;
   posisi: string;
   nama_lengkap: string;
+  nama_panggilan: string;
   tempat_lahir: string;
-  tanggal_lahir: string;
-  status: string;
+  tgl_lahir: string;
   alamat: string;
+  jenis_kelamin: string;
+  status_pernikahan: string;
+  no_telpon: string;
+  no_ktp: string;
+  no_npwp: string;
+  no_kta: string;
+  tinggi_badan: string;
+  berat_badan: string;
+  ukuran_baju: string;
+  ukuran_celana: string;
+  agama: string;
   lampiran: string;
-  keterangan: string;
+  pendidikan_terakhir: string;
+  ukuran_sepatu: string;
   waktu: string;
 }
 [];
@@ -21,7 +33,6 @@ export interface createLowonganType {
   jobdesk: {
     item: string;
   }[];
-
 }
 [];
 
@@ -39,3 +50,6 @@ export interface ActivityCountType {
   jumlah_pelamar: number;
   lamaran: number;
 }
+export interface DropdownPositiontType {
+  posisi: string;
+}[]

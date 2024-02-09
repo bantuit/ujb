@@ -3,7 +3,7 @@ import city from '../../assets/tentangKamiImg.png'
 const TentangKami = () => {
     return (
         <>
-            <div className='w-full h-fit lg:h-screen flex flex-col justify-start gap-10 items-center space-y-5 pt-10 px-5 '>
+            <div className=' w-full mb-44 h-screen lg:h-screen flex flex-col justify-start gap-10 items-center space-y-5 pb-4 pt-10 px-5 '>
                 <h1 className='text-5xl font-extrabold z-20'>Tentang Kami</h1>
                 <div className='flex justify-between items-start md:flex-row flex-col md:lex-row font-bold text-black z-20'>
                     <div className='w-full md:w-1/3 flex justify-center px-10 md:px-0 mb-16 md:mb-0'>

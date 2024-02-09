@@ -11,7 +11,7 @@ type LoginType = {
 
 const Login = () => {
     const navigate = useNavigate()
-    const [, setCookie] = useCookies(['token'])
+    const [, setCookie] = useCookies(['token','username'])
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -24,8 +24,8 @@ const Login = () => {
                 password: password,
             }
             const response = await authServices.login(body);
-            console.log(response.data.data.accessToken)
             setCookie('token', JSON.stringify(response.data.data.accessToken), { path: "/" });
+            setCookie('username', JSON.stringify(username), { path: "/" });
             navigate('/dashboard')
             // console.log(cookies.token);
         } finally {
@@ -41,7 +41,7 @@ const Login = () => {
                     <img className="w-auto h-20" src={logo} alt="" />
                     <h2 className="card-title text-base text-center">Selamat Datang, Pada Halaman Login</h2>
                     <div className='w-64 flex flex-col'>
-                        <label>Username/Email</label>
+                        <label>Username</label>
                         <input type="text" placeholder="Type here" onChange={(e) => setUsername(e.target.value)} className="input input-bordered input-sm w-full " />
                     </div>
                     <div className='w-64 flex flex-col'>

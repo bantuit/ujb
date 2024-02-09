@@ -6,11 +6,14 @@ import cleaning4 from '../../assets/cleaning4.png'
 
 const CleaningService = () => {
     return (
-        <div>
-            <div className='w-full h-fit lg:h-fit flex flex-col justify-start gap-10 items-center space-y-5 py-20 z-20'>
+        <div    >
+            <div className='w-full h-fit lg:h-fit flex flex-col justify-start gap-10 items-center space-y-5 py-20 z-20 md:text-white'>
                 <h1 className='text-4xl font-extrabold z-20'>Tentang Kami</h1>
-                <div className='w-full  flex justify-between px-5 lg:px-10 items-start md:flex-row flex-col-reverse md:lex-row font-bold text-black z-20 '>
-                    <div className='w-full md:w-1/2 flex justify-center flex-col space-y-8  '>
+                <div className='w-full flex gap-10 justify-between px-5 lg:px-10 items-start md:flex-row flex-col md:lex-row font-bold z-20 '>
+                    <div className='w-full bg-red-100 md:w-1/3 flex justify-center px-10 md:px-0 mb-16 md:mb-0'>
+                        <img className='w-full md:w-full ' src={cleaning1} alt="" />
+                    </div>
+                    <div className='w-[60vw] flex justify-center flex-col space-y-8  '>
                         <p>Kami membentuk jasa layanan kebersihaan dan perawatan gedung dengan nama kinclong
                             fasility service.</p>
                         <div>
@@ -23,14 +26,11 @@ const CleaningService = () => {
                                 <li className='list-disc'>High Rise</li>
                                 <li className='list-disc'>Washroom Service</li>
                                 <li className='list-disc'>Home Care</li>
-                                <li className='list-disc'> Landscape</li>
+                                <li className='list-disc'>Landscape</li>
                                 <li className='list-disc'>Pest control</li>
                                 <li className='list-disc'>Waste management</li>
                             </ul>
                         </div>
-                    </div>
-                    <div className='w-full md:w-1/3 flex justify-center px-10 md:px-0 mb-16 md:mb-0'>
-                        <img className='w-full md:w-full ' src={cleaning1} alt="" />
                     </div>
                 </div>
             </div>

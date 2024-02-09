@@ -1,7 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './Page/Home/index'
-import Navbar from './Component/Navbar';
-import Footer from './Component/Footer'
 import './App.css'
 import TentangKamiParent from './Page/TentangKami/index'
 import TentangKami from './Page/TentangKami/TentangKami'
@@ -57,7 +55,7 @@ function App() {
         <Route path='karir' element={<Karir />}>
           <Route path='alur-rekruitment' element={<AlurRekruitment />} />
           <Route path='lowongan-kerja' element={<LowonganKerja />} />
-          <Route path='lamar-kerja' element={<LamarKerja />} />
+          <Route path='lamar-kerja/:posisi' element={<LamarKerja />} />
         </Route>
         <Route path='/hubungi-kami' element={<HubungiKami />} />
       </Routes>

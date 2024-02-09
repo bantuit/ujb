@@ -3,15 +3,14 @@ import LayananKami from './LayananKami'
 import Partner from './Partner'
 import Legalitas from './Legalitas'
 import Email from './Email'
-import latar from '../../assets/bg-ujb1.jpg'
 import Navbar from '../../Component/Navbar'
 import Footer from '../../Component/Footer'
 
 
 const index = () => {
     return (
-        <div>
-            <img src={latar} alt="bg" className='absolute w-full -z-10 -top-8 ' />
+        <div >
+            <div className='home'>
             <Navbar/>
             <Summary />
             <LayananKami />
@@ -19,6 +18,7 @@ const index = () => {
             <Legalitas />
             <Email />
             <Footer/>
+            </div>
         </div>
     )
 }

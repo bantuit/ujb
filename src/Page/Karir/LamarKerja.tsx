@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import Breadcrumb from '../../Component/Breadcrumbs';
 import { FiFilePlus } from "react-icons/fi";
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const breadcrumb = [
     {
@@ -16,99 +18,164 @@ const breadcrumb = [
 const formInput = [
     {
         label: 'Nama Lengkap',
-        name: 'namalengkap',
+        name: 'NamaLengkap',
 
     },
     {
         label: 'Nama Panggilan',
-        name: 'namapanggilan',
+        name: 'NamaPanggilan',
     },
     {
         label: 'Tempat Lahir',
-        name: 'tempatlahir',
+        name: 'TempatLahir',
     },
     {
         label: 'Tanggal Lahir',
-        name: 'tanggallahir',
+        name: 'TglLahir',
     },
     {
         label: 'Agama',
-        name: 'agama',
+        name: 'Agama',
     },
     {
         label: 'Jenis Kelamin',
-        name: 'jeniskelamin',
+        name: 'JenisKelamin',
+        type: 'radio',
+        options: ['Laki-laki', 'Perempuan'],
     },
     {
         label: 'Pendidikan Terakhir',
-        name: 'pendidikanterakhir',
+        name: 'PendidikanTerakhir',
     },
     {
         label: 'Status Pernikahan',
-        name: 'statuspernikahan',
+        name: 'StatusPernikahan',
     },
     {
         label: 'Nomer Telepon ',
-        name: 'nomertelepon',
+        name: 'NoTelpon',
     },
     {
         label: 'Nomer KTP',
-        name: 'nomerktp',
+        name: 'NoKtp',
     },
     {
         label: 'Nomer NPWP',
-        name: 'nomernpwp',
+        name: 'NoNpwp',
     },
     {
         label: 'Nomer KTA',
-        name: 'nomerkta',
+        name: 'NoKta',
     },
     {
         label: 'Tinggi Badan',
-        name: 'tinggibadan',
+        name: 'TinggiBadan',
     },
     {
         label: 'Berat Badan',
-        name: 'beratbadan',
+        name: 'BeratBadan',
     },
     {
         label: 'Ukuran Baju',
-        name: 'ukuranbaju',
+        name: 'UkuranBaju',
     },
     {
         label: 'Ukuran Celana',
-        name: 'ukurancelana',
+        name: 'UkuranCelana',
     },
     {
-        label: 'Ukuran Septu',
-        name: 'ukuransepatu',
+        label: 'Ukuran Sepatu',
+        name: 'ukuranSepatu',
     },
 ]
 
 
 
 const LamarKerja = () => {
+    const { posisi } = useParams()
+    const defaultPosisi = "security";
     const initialFormData: { [key: string]: string } = {};
     formInput.forEach(input => {
-      initialFormData[input.name] = ''; // Inisialisasi setiap nilai dengan string kosong
+        initialFormData[input.name] = '';
+        initialFormData['Alamat'] = '';
+        initialFormData['Posisi'] = posisi || defaultPosisi;
     });
-  
+
     const [formData, setFormData] = useState(initialFormData);
-  
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const [uploadFile, setUploadFile] = useState<string | undefined>();
+
+    const handleChange = (e:  React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({
             ...prevFormData,
             [name]: value,
         }));
+
     };
 
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Submitted Data:', formData);
-        // Lakukan sesuatu dengan formData, misalnya kirim ke server
+
+        // Membuat objek FormData
+        const formDataToSend = new FormData();
+
+        Object.entries(formData).forEach(([key, value]) => {
+            formDataToSend.append(key, value);
+        });
+
+        if (formDataUpload.file) {
+            formDataToSend.append('Lampiran', formDataUpload.file);
+        }
+
+        for (const pair of formDataToSend.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
+        try {
+
+            await axios.post('https://ujb.biz.id/api/requirement', formDataToSend, {
+                headers: {
+                    'content-type': 'multipart/form-data',
+                }
+            });
+            console.log(formDataToSend);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
+
+
+    const [formDataUpload, setFormDataUpload] = useState({
+        name: '',
+        file: null as File | null
+    });
+
+
+    const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+        try {
+            const file = e.target.files?.[0] || null;
+
+            // Mengecek apakah file yang diunggah adalah file PDF
+            if (file && file.type !== 'application/pdf') {
+                alert('Mohon unggah file dalam format PDF.');
+                return;
+            }
+
+            // Mengecek apakah ukuran file tidak melebihi 2MB
+            if (file && file.size > 2 * 1024 * 1024) {
+                alert('Ukuran file melebihi batas maksimum (2MB).');
+                return;
+            }
+
+            setFormDataUpload((prevData) => ({ ...prevData, file }));
+            setUploadFile(file?.name);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+
+
     return (
         <div>
             <Breadcrumb breadcrumbs={breadcrumb} />
@@ -122,42 +189,55 @@ const LamarKerja = () => {
                             <div className='grid md:grid-cols-2 gap-5'>
                                 {formInput.map((item, index) => {
                                     return (
-                                        <label key={index} className='w-full flex flex-col'>
-                                            {item.label}
-                                            <input
-                                                type="text"
-                                                name={item.name}
-                                                required
-                                                placeholder="Nama Lengkap"
-                                                className="input input-bordered input-sm w-full"
-                                                value={formData.name}
-                                                onChange={handleChange}
-                                            />
-                                        </label>
-                                    )
+                                        <div key={index} className='w-full flex flex-col'>
+                                            <label>{item.label}</label>
+                                            {item.type === 'radio' && (
+                                                <div>
+                                                    {item.options.map((option, i) => (
+                                                        <label key={i} className="radio">
+                                                            <input
+                                                                type="radio"
+                                                                name={item.name}
+                                                                value={option}
+                                                                checked={formData[item.name] === option}
+                                                                onChange={handleChange}
+                                                            />
+                                                            {option}
+                                                        </label>
+                                                    ))}
+                                                </div>
+                                            )}
+                                            {item.type !== 'radio' && (
+                                                <input
+                                                    type="text"
+                                                    name={item.name}
+                                                    required
+                                                    placeholder={item.label}
+                                                    className="input input-bordered input-sm w-full"
+                                                    value={formData[item.name]}
+                                                    onChange={handleChange}
+                                                />
+                                            )}
+                                        </div>
+                                    );
                                 })}
-                                <label className='w-full flex flex-col'>
-                                    nama
-                                    <input
-                                        type="text"
-                                        name='nama'
-                                        required
-                                        placeholder="Nama Lengkap"
-                                        className="input input-bordered input-sm w-full"
-                                        value={formData.name}
-                                        onChange={handleChange}
-                                    />
-                                </label>
                             </div>
-
                             <div className='flex flex-col'>
                                 <label>Alamat Tinggal</label>
-                                <textarea placeholder="Alamat Tinggal" className="textarea textarea-bordered textarea-sm w-full " ></textarea>
+                                <textarea name='Alamat' value={formData.alamat} onChange={handleChange} placeholder="Alamat Tinggal" className="textarea textarea-bordered textarea-sm w-full " ></textarea>
                             </div>
+                            <input
+                                type="file"
+                                id='upload'
+                                name="file"
+                                accept="application/pdf"
+                                onChange={(e) => handleFileChange(e)}
+                                className=" p-2 w-full border hidden"
+                            />
                             <div className='w-full h-52 bg-[#F9F9FC] flex flex-col justify-center items-center gap-3 px-5 '>
                                 <div className='bg-[#DADADC] w-10 h-10 flex justify-center items-center rounded-full text-2xl'><FiFilePlus className='text-[#269ED8]' /></div>
-                                <p className='md:w-1/2 text-center'>Drag and drop image here, or click add Document, Format PDF (CV, Ijazah, Transkip, dsb)</p>
-                                <button className="btn btn-xs bg-[#DADADC] text-[#269ED8] sm:btn-base md:btn-sm lg:btn-md">Add Document</button>
+                                <p className='md:w-1/2 text-center'>{uploadFile !== undefined ? uploadFile : 'Drag and drop image here, or click add Document, Format PDF (CV, Ijazah, Transkip, dsb)'}</p>
+                                <label htmlFor='upload' className="btn btn-xs bg-[#DADADC] text-[#269ED8] sm:btn-base md:btn-sm lg:btn-md">Add Document</label>
                             </div>
                             <div className='w-full flex flex-row justify-end gap-5'>
                                 <button className="btn btn-outline btn-info btn-sm">Cancel</button>

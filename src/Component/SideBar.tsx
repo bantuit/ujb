@@ -15,7 +15,7 @@ const SideBar = ({ condition, closeSidebar }: SideBarProps) => {
     const navigate = useNavigate()
 
     return (
-        <div className={`bg-[#FFFFFF] w-56 h-full rounded-lg p-5 grid grid-rows-4  ${condition ? 'md:static absolute transition -translate-x-56 md:translate-x-0' : ' translate-x-0 md:-translate-x-56 transition  absolute z-10 '}  `}>
+        <div className={`bg-[#FFFFFF] w-56 h-full rounded-lg p-5 grid grid-rows-4  ${condition ? 'md:static absolute transition -translate-x-60 md:translate-x-0' : 'translate-x-0 md:-translate-x-60 transition  absolute z-10 '}  `}>
 
             {condition ? ''
                 : <span onClick={closeSidebar} className='w-full absolute flex justify-end text-2xl font-bold p-5 z-10'><IoMdClose /></span>
