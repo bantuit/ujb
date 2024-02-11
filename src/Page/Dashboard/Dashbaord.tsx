@@ -22,11 +22,12 @@ import lamaranDiproses from '../../assets/proses.svg';
 import Pagination from '../../Component/Pagination';
 import Swal from 'sweetalert2';
 import { MdDelete } from 'react-icons/md';
+import { isAxiosError } from 'axios';
 
 
 const Dashbaord = () => {
   const navigate = useNavigate();
-  const [cookies] = useCookies(['token']);
+  const [cookies, , removeCookie] = useCookies(['token']);
   const [listPelamar, setListPelamar] = useState<listPelamarType[]>();
   const [activityCount, setActivityCount] = useState<ActivityCountType>();
   const [dataLowongan, setDataLowongan] = useState<listLowonganType[]>([]);
@@ -62,6 +63,24 @@ const Dashbaord = () => {
     HasNext: true
   });
 
+  const refresh = async (error: unknown) => {
+    if (isAxiosError(error) && error.response && error.response.status == 401) {
+      const result = await Swal.fire({
+        title: `Sesi anda telah berakhir!!`,
+        text: "Mohon lakukan login kembali",
+        icon: "warning",
+        confirmButtonColor: "#22C55E",
+        confirmButtonText: "Login",
+        allowOutsideClick: false
+      });
+
+      if (result.isConfirmed) {
+        removeCookie('token')
+        navigate('/login')
+      }
+    }
+  }
+
 
   useEffect(() => {
     getData(cookies.token, paginationInfo);
@@ -79,17 +98,23 @@ const Dashbaord = () => {
   }, [searchTerm]);
 
   useEffect(() => {
-    if (selectedItem !== '') {
+    if (selectedItem === 'Semua') {
       const updatedPaginationPelamar = {
         ...paginationPelamar,
-        searchTerm: selectedItem
+        SearchTerm: ''
+      };
+      getPelamar(cookies.token, updatedPaginationPelamar);
+    } else if (selectedItem !== '') {
+      const updatedPaginationPelamar = {
+        ...paginationPelamar,
+        SearchTerm: selectedItem
       };
       paginationPelamar.SearchTerm = selectedItem;
       getPelamar(cookies.token, updatedPaginationPelamar);
     } else {
       const updatedPaginationPelamar = {
         ...paginationPelamar,
-        searchTerm: searchTermPelamar
+        SearchTerm: searchTermPelamar
       };
       getPelamar(cookies.token, updatedPaginationPelamar);
     }
@@ -129,7 +154,27 @@ const Dashbaord = () => {
     }
   };
 
-  const handleAddClickJobdesk = () => {
+  const handleDeleteKualifikasi = (e:React.FormEvent) => {
+    e.preventDefault()
+    if (idUpdate) {
+      if (initialKualifikasiValues.length > 1) {
+        const updatedKualifikasiValues = [...initialKualifikasiValues];
+        updatedKualifikasiValues.pop(); // Menghapus elemen terakhir dari array
+        setCountKualifikasi(initialKualifikasiValues.length - 1);
+        setInitialKualifikasiValues(updatedKualifikasiValues);
+      }
+    } else {
+      if (countKualifikasi > 1) {
+        const updatedKualifikasiValues = [...kualifikasiValues];
+        updatedKualifikasiValues.pop(); // Menghapus elemen terakhir dari array
+        setCountKualifikasi(countKualifikasi - 1);
+        setKualifikasiValues(updatedKualifikasiValues);
+      }
+    }
+  };
+
+  const handleAddClickJobdesk = (e: React.FormEvent) => {
+    e.preventDefault();
     if (idUpdate) {
       setCountJobdesk(initialJobdeskValues.length + 1);
       setInitialJobdeskValues([...initialJobdeskValues, '']);
@@ -139,7 +184,28 @@ const Dashbaord = () => {
     }
   };
 
+  const handleDeleteJobdesk = (e:React.FormEvent) => {
+    e.preventDefault()
+    if (idUpdate) {
+      if (initialJobdeskValues.length > 1) {
+        const updatedJobdeskValues = [...initialJobdeskValues];
+        updatedJobdeskValues.pop(); // Menghapus elemen terakhir dari array
+        setCountJobdesk(initialJobdeskValues.length - 1);
+        setInitialJobdeskValues(updatedJobdeskValues);
+      }
+    } else {
+      if (countJobdesk > 1) {
+        const updatedJobdeskValues = [...inputJobdesk];
+        updatedJobdeskValues.pop(); // Menghapus elemen terakhir dari array
+        setCountJobdesk(countJobdesk - 1);
+        setInputJobdesk(updatedJobdeskValues);
+      }
+    }
+  };
+
+
   const getData = async (token: string, queryparams: queryparamsType) => {
+
     try {
       const response = await dashboardService.listLowongan(token, queryparams);
       setDataLowongan(response.data.data);
@@ -151,7 +217,9 @@ const Dashbaord = () => {
         TotalCount: paginationData.total_count,
         HasNext: paginationData.has_next
       });
-    } finally { /* empty */ }
+    } catch (error) {
+      refresh(error)
+    }
   };
 
   const getActivity = async () => {
@@ -168,7 +236,9 @@ const Dashbaord = () => {
     setPosisi('')
   }
 
-  const save = async () => {
+  const save = async (e:React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
     try {
       let kualifikasiData: { item: string }[] = [];
       let jobdeskData: { item: string }[] = [];
@@ -185,16 +255,21 @@ const Dashbaord = () => {
         kualifikasi: kualifikasiData,
         jobdesk: jobdeskData,
       };
+      resetLowongan()
+      await getActivity();
+      setIsLoading(false)
+      setShowModal(false);
 
       await dashboardService.CreateLowongan(cookies.token, body);
       await getData(cookies.token, paginationInfo);
-      resetLowongan()
-      await getActivity();
-      setShowModal(false);
-    } finally { /* empty */ }
+
+    } catch (error) {
+      refresh(error)
+    }
   };
 
-  const edit = async () => {
+  const edit = async (e:React.FormEvent) => {
+    e.preventDefault()
     setIsLoading(true)
     try {
       const kualifikasiData = initialKualifikasiValues.map(item => ({ item }));
@@ -212,8 +287,12 @@ const Dashbaord = () => {
       resetLowongan()
       setShowModal(false);
       setIsLoading(false)
-    } catch {
+
+      setInitialKualifikasiValues(kualifikasiData.map(data => data.item));
+      setInitialJobdeskValues(jobdeskData.map(data => data.item));
+    } catch (error) {
       setIsLoading(false)
+      refresh(error)
     }
   };
 
@@ -238,16 +317,18 @@ const Dashbaord = () => {
         Swal.fire({
           title: "Terhapus!",
           text: "File anda sudah terhapus.",
-          icon: "success"
+          icon: "success",
+          confirmButtonColor: "#3085d6",
         });
       }
     } catch (error) {
-      console.error("Error deleting item:", error);
       Swal.fire({
         title: "Error!",
         text: "An error occurred while deleting the file.",
         icon: "error"
       });
+
+      refresh(error)
     }
   };
 
@@ -263,7 +344,9 @@ const Dashbaord = () => {
         TotalCount: paginationData.total_count,
         HasNext: paginationData.has_next
       });
-    } finally { /* empty */ }
+    } catch (error) {
+      refresh(error)
+    }
   };
 
   const deletePelamar = async (id: string, posisi: string) => {
@@ -286,21 +369,31 @@ const Dashbaord = () => {
         Swal.fire({
           title: "Terhapus!",
           text: "File anda sudah terhapus.",
-          icon: "success"
+          icon: "success",
+          confirmButtonColor: "#3085d6"
+
         });
       }
     } catch (error) {
+      refresh(error)
       Swal.fire({
         title: "Error!",
         text: "Terdapat masalah ketika menghapus file anda.",
         icon: "error"
+        
       });
     }
   };
 
   const getDropdownList = async () => {
     const response = await dashboardService.dropdowPosisi(cookies.token);
-    setDropdownData(response.data.data);
+    const dropdownList = response.data.data;
+    const data = {
+      posisi: 'Semua'
+    }
+    const updatedDropdownList = [data, ...dropdownList];
+
+    setDropdownData(updatedDropdownList);
   };
 
   const selectDropdown = (e: string) => {
@@ -330,13 +423,13 @@ const Dashbaord = () => {
     setIdUpdate(lowongan.id)
     setInitialKualifikasiValues(lowongan.kualifikasi);
     setInitialJobdeskValues(lowongan.jobdesk)
-    setShowModal(true); 
+    setShowModal(true);
   }
 
   return (
     <div className="w-full h-fit px-2 space-y-5">
       <h1 className="font-bold text-lg">Dashboard</h1>
-      <div className="grid lg:grid-cols-3 gap-5">
+      <div className="grid lg:grid-cols-2 gap-5">
         <div className=" h-32 border-4 drop-shadow-lg border-[#269ED8] bg-[#fff]  grid grid-rows-2 p-3">
           <div className="font-bold flex gap-2 items-center ">
             <img className='w-7 h-7' src={lamaranTerbaru} alt="" />Lowongan Terbaru
@@ -353,14 +446,14 @@ const Dashbaord = () => {
             {activityCount?.jumlah_pelamar !== undefined ? activityCount?.jumlah_pelamar : '-'}
           </div>
         </div>
-        <div className=" h-32 border-4 drop-shadow-lg border-[#FFC000] bg-[#fff]  grid grid-rows-2 p-3">
+        {/* <div className=" h-32 border-4 drop-shadow-lg border-[#FFC000] bg-[#fff]  grid grid-rows-2 p-3">
           <div className="font-bold flex gap-2 items-center">
             <img className='w-7 h-7' src={lamaranDiproses} alt="" /> Lamaran Yang Diproses
           </div>
           <div className="font-bold text-5xl">
             {activityCount?.lamaran !== undefined ? activityCount?.lamaran : '-'}
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="w-full h-fit bg-[#fff] rounded-md space-y-5 px-3 py-2">
         <p className="font-bold">List Pelamar</p>
@@ -431,7 +524,7 @@ const Dashbaord = () => {
                         <button
                           className='btn-sm rounded-sm  border border-red-400'
                           type="button"
-                          onClick={() => deletePelamar(item.id, item.posisi)}
+                          onClick={() => deletePelamar(item.id, item.nama_lengkap)}
                         >
                           <MdDelete className='text-red-500 ' />
                         </button>
@@ -451,20 +544,21 @@ const Dashbaord = () => {
           {/* create list lowongan  */}
           <ModalWrapper type='normal' title='Tambahkan Lowongan +' showModal={showModal} setShowModal={() => setShowModal(true)} style='btn bg-blue-500 text-xs btn-sm hover:bg-blue-600 text-white'>
             <ModalHeader closeModal={() => setShowModal(false)} reset={resetLowongan} title='Formulir Tambah Lowongan Kerja' />
-            <section className='w-[30vw] flex flex-col justify-center space-y-5 p-5' >
+            <form onSubmit={idUpdate ? edit : save} className='w-[30vw] flex flex-col justify-center space-y-5 p-5' >
               <div >
                 <p className="py-1">Posisi</p>
                 {idUpdate
                   ?
                   <input type="text" disabled placeholder="Type here" value={selectedLowongan?.posisi} className="input input-bordered input-sm w-full " />
                   :
-                  <input type="text" placeholder="Type here" value={posisi} onChange={(e) => setPosisi(e.target.value)} className="input input-bordered input-sm w-full " />
+                  <input type="text" placeholder="Type here" required value={posisi} onChange={(e) => setPosisi(e.target.value)} className="input input-bordered input-sm w-full " />
                 }
               </div>
               <div >
                 <p className="py-1 flex items-center gap-4">
                   <p>Kualifikasi</p>
-                  <button onClick={handleAddClick} className=' h-10 text-blue-500 max-w-xs rounded-md'>add+</button>
+                  <button onClick={handleAddClick}  className=' h-5 w-5 text-white flex justify-center items-center bg-blue-500 max-w-xs rounded-md'>+</button>
+                  <button onClick={handleDeleteKualifikasi}  className=' h-5 w-5 text-white flex justify-center items-center bg-blue-500 max-w-xs rounded-md'>-</button>
                 </p>
                 <div className='space-y-2  h-32 overflow-y-auto flex flex-row'>
                   <div className='space-y-2 w-full h-32 overflow-y-auto flex flex-col'>
@@ -476,6 +570,7 @@ const Dashbaord = () => {
                             type="text"
                             placeholder="Masukkan kualifikasi anda"
                             value={initialKualifikasiValues[index]}
+                            required
                             onChange={(e) => handleInputChange(e, index)}
                             className="input input-bordered input-sm w-full max-w-md"
                           />
@@ -488,6 +583,7 @@ const Dashbaord = () => {
                             type="text"
                             placeholder="Masukkan kualifikasi anda"
                             value={value}
+                            required
                             onChange={(e) => handleInputChange(e, index)}
                             className="input input-bordered input-sm w-full max-w-md"
                           />
@@ -499,7 +595,8 @@ const Dashbaord = () => {
               <div >
                 <p className="py-1 flex items-center gap-4">
                   <p>Jobdesk</p>
-                  <button onClick={handleAddClickJobdesk} className=' h-10 text-blue-500 max-w-xs rounded-md'>add+</button>
+                  <button onClick={handleAddClickJobdesk} className=' h-5 w-5 text-white flex justify-center items-center bg-blue-500 max-w-xs rounded-md'>+</button>
+                  <button onClick={handleDeleteJobdesk} className=' h-5 w-5 flex items-center justify-center text-white bg-blue-500 max-w-xs rounded-md'>-</button>
                 </p>
                 <div className='space-y-2 h-32 overflow-y-auto flex flex-col'>
                   {idUpdate
@@ -508,7 +605,7 @@ const Dashbaord = () => {
                         <input
                           key={index}
                           type="text"
-                          placeholder="Masukan Jobdesk ANda"
+                          placeholder="Masukan Jobdesk Anda"
                           value={initialJobdeskValues[index]}
                           onChange={(e) => handleInputChangeJobdesk(e, index)}
                           className="input input-bordered input-sm w-full max-w-md"
@@ -520,7 +617,8 @@ const Dashbaord = () => {
                         <input
                           key={index}
                           type="text"
-                          placeholder="Masukan Jobdesk ANda"
+                          placeholder="Masukan Jobdesk Anda"
+                          required
                           value={value}
                           onChange={(e) => handleInputChangeJobdesk(e, index)}
                           className="input input-bordered input-sm w-full max-w-md"
@@ -531,11 +629,11 @@ const Dashbaord = () => {
               </div>
               <div className="modal-action">
                 <label onClick={() => { setShowModal(false), resetLowongan() }} className="btn btn-outline text-xs px-5 hover:bg-gray-400 border hover:border-gray-500 border-gray-500 btn-sm">Batal</label>
-                <label className="btn btn-success text-white text-xs px-5 btn-sm" onClick={idUpdate ? edit : save}>
+                <button type='submit' className="btn btn-success text-white text-xs px-5 btn-sm">
                   {isLoading ? <div className='flex flex-row justify-center items-center gap-2'><span className="loading loading-spinner loading-sm">kirim</span> <span>Loading..</span></div> : 'kirim'}
-                </label>
+                </button>
               </div>
-            </section>
+            </form>
           </ModalWrapper>
           <input type="text" placeholder="Type here" onChange={(e) => setSearchTerm(e.target.value)} className="input input-bordered input-sm w-full max-w-xs" />
         </div>

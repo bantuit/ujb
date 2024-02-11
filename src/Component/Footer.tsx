@@ -6,7 +6,7 @@ import { BsTelephone } from "react-icons/bs";
 
 const Footer = () => {
     return (
-        <div className='kaki px-10 pt-44 md:pt-44  mt-10 footer text-white flex flex-col items-center z-20 '>
+        <div className='kaki px-10 pt-44 md:pt-44  mt-10 footer text-white bg-white flex flex-col items-center z-20 '>
             <footer className="footer flex flex-wrap gap-y-10 justify-start lg:justify-around z-20 ">
                 <aside className='flex flex-col gap-10'>
                     <div className="space-y-5"> 

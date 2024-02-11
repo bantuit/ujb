@@ -3,6 +3,7 @@ import logo from '../../assets/logo-svg.svg'
 import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 import authServices from '../../Services/Api/LoginService'
+import Swal from 'sweetalert2'
 
 type LoginType = {
     username:string,
@@ -18,8 +19,9 @@ const Login = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    const save = async () => {
+    const save = async (e:React.FormEvent) => {
         // setIsLoading(true);
+        e.preventDefault();
         setIsLoading(true);
         try {
             const body:LoginType = {
@@ -31,8 +33,14 @@ const Login = () => {
             setCookie('username', JSON.stringify(username), { path: "/" });
             setIsLoading(false);
             navigate('/dashboard')
-        } finally {
+        } catch  {
             setIsLoading(false);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Mohon masukan Password dan Username dengan benar",
+                confirmButtonColor: "#12AE57",
+              });
         }
     };
 
@@ -40,7 +48,7 @@ const Login = () => {
     return (
         <div className='w-full h-screen flex justify-center items-center'>
             <div className="card lg:w-1/4 h-auto  bg-base-100 md:shadow-xl md:border-t-2 md:border-[#006FC0]  ">
-                <div className="w-full card-body flex flex-col items-center space-y-4">
+                <form onSubmit={save} className="w-full card-body flex flex-col items-center space-y-4">
                     <img className="w-auto h-20" src={logo} alt="" />
                     <h2 className="card-title text-base text-center">Selamat Datang, Pada Halaman Login</h2>
                     <div className='w-64 flex flex-col'>
@@ -51,10 +59,10 @@ const Login = () => {
                         <label>Password</label>
                         <input type="password" placeholder="Type here" onChange={(e) => setPassword(e.target.value)} className="input input-bordered input-sm w-full " />
                     </div>
-                    <button className="w-64 btn btn-sm bg-[#12AE57] text-white btn-success" onClick={save}>
+                    <button type='submit' className="w-64 btn btn-sm bg-[#12AE57] text-white btn-success">
                     {isLoading ? <div className='flex flex-row justify-center items-center gap-2'><span className="loading loading-spinner loading-sm">kirim</span> <span>Loading..</span></div> : 'kirim'}
                     </button>
-                </div>
+                </form>
             </div>
         </div>
     )

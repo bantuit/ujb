@@ -1,6 +1,7 @@
 import security1 from '../../assets/securityImg1.png'
 import security2 from '../../assets/securityImg2.png'
-import img2 from '../../assets/img2.png'
+import sarana1 from '../../assets/sarana-security.jpeg'
+import sarana2 from '../../assets/sarana-parkir.jpeg'
 import Navbar from '../../Component/Navbar'
 import Footer from '../../Component/Footer'
 
@@ -68,9 +69,9 @@ const SecurityCenteng = () => {
                     </div>
                     <div className='w-fit h-fit md:w-1/2 grid grid-cols-2 justify-start items-center px-10 md:px-0 gap-3 mb-10 md:mb-0'>
                         <img className='w-32 md:w-full rounded-lg' src={security2} alt="" />
-                        <img className='w-32 md:w-full rounded-lg' src={img2} alt="" />
+                        <img className='w-32 md:w-full rounded-lg' src={sarana1} alt="" />
                         <img className='w-32 md:w-full rounded-lg' src={security1} alt="" />
-                        <img className='w-32 md:w-full rounded-lg' src={security2} alt="" />
+                        <img className='w-32 md:w-full rounded-lg' src={sarana2} alt="" />
                     </div>
                 </div>
             </div>

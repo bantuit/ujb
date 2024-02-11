@@ -5,6 +5,7 @@ import { CgProfile } from "react-icons/cg";
 import { CiLogout } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 interface SideBarProps {
     condition: boolean
@@ -13,10 +14,15 @@ interface SideBarProps {
 
 const SideBar = ({ condition, closeSidebar }: SideBarProps) => {
     const navigate = useNavigate()
+    const [,,removeCookie] = useCookies(['token']);
+
+    const handleLogout = () => {
+        removeCookie('token');
+        navigate('/login')
+    };
 
     return (
         <div className={`bg-[#FFFFFF] w-56 h-full rounded-lg p-5 grid grid-rows-4  ${condition ? 'md:static absolute transition -translate-x-60 md:translate-x-0' : 'translate-x-0 md:-translate-x-60 transition  absolute z-10 '}  `}>
-
             {condition ? ''
                 : <span onClick={closeSidebar} className='w-full absolute flex justify-end text-2xl font-bold p-5 z-10'><IoMdClose /></span>
             }
@@ -28,7 +34,7 @@ const SideBar = ({ condition, closeSidebar }: SideBarProps) => {
                 <a href="/" className='flex items-center gap-1 font-bold text-gray-500'><AiOutlineHome /> Home Page</a>
                 <a href="/dashboard/profile" className='flex items-center gap-1 font-bold text-gray-500'><CgProfile /> Profile</a>
             </div>
-            <div className='flex items-center gap-1 font-bold text-gray-500 cursor-pointer absolute bottom-3 left-4' onClick={() => navigate('/login')}><CiLogout /> Logout </div>
+            <div className='flex items-center gap-1 font-bold text-gray-500 cursor-pointer absolute bottom-3 left-4' onClick={handleLogout}><CiLogout /> Logout </div>
         </div>
     )
 }

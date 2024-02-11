@@ -7,7 +7,8 @@ interface NavbarProps {
 
 const NavbarDashboard = ({clickHandler}: NavbarProps) => {
   const [cookies] = useCookies(['username']);
-
+  const kalimat = cookies.username
+  const karakterPertama = kalimat.charAt(0);
   return (
     <div className="w-full h-12 rounded-md bg-[#FFFFFF] flex px-2 items-center justify-between">
       <RxHamburgerMenu onClick={clickHandler} className="cursor-pointer" />
@@ -15,7 +16,7 @@ const NavbarDashboard = ({clickHandler}: NavbarProps) => {
       <div className="flex flex-row justify-center items-center">
         <div className="avatar placeholder">
           <div className="bg-neutral text-neutral-content rounded-full h-8 w-8">
-            <span className="text-xs">A</span>
+            <span className="text-xs">{karakterPertama}</span>
           </div>
         </div>
         <div className="px-2">

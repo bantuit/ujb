@@ -1,7 +1,7 @@
-import security2 from '../../assets/securityImg2.png'
-import cleaning1 from '../../assets/cleaning1.png'
-import parkir from '../../assets/parkir1.png'
-import img2 from '../../assets/img2.png'
+import komitment1 from '../../assets/komitment1.jpeg'
+import komitment2 from '../../assets/komitment2.jpeg'
+import komitment3 from '../../assets/komitment3.jpeg'
+import komitment4 from '../../assets/komitment4.jpeg'
 import Navbar from '../../Component/Navbar'
 
 
@@ -18,10 +18,10 @@ const Komitment = () => {
                             serta Penyedia Jasa Tenaga Kerja bagi seluruh Mayarakat Indonesia. </p>
                     </div>
                     <div className='w-fit h-fit md:w-1/5 grid grid-cols-2 justify-start items-center px-10 md:px-0 gap-2 mb-10 md:mb-0'>
-                        <img className='w-42 rounded-lg' src={security2} alt="" />
-                        <img className='w-42 rounded-lg' src={cleaning1} alt="" />
-                        <img className='w-42 rounded-lg' src={parkir} alt="" />
-                        <img className='w-42 rounded-lg' src={img2} alt="" />
+                        <img className='w-42 rounded-lg' src={komitment1} alt="" />
+                        <img className='w-42 rounded-lg' src={komitment2} alt="" />
+                        <img className='w-42 rounded-lg' src={komitment3} alt="" />
+                        <img className='w-42 rounded-lg' src={komitment4} alt="" />
                     </div>
                 </div>
             </div>

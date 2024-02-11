@@ -1,9 +1,11 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Breadcrumb from '../../Component/Breadcrumbs';
+import { useEffect } from 'react';
 
 const DetailPelamar = () => {
     const location = useLocation();
     const { item } = location.state;
+    const navigate = useNavigate()
     const breadcrumb = [
         {
             label: 'Dashboard',
@@ -15,13 +17,19 @@ const DetailPelamar = () => {
         }
     ];
 
+    useEffect(() => {
+        if(item == null){
+            navigate('/dashboard');
+        }
+    },[])
+
     return (
         <div className='py-10 space-y-4 px-3'>
             <div className='w-full flex flex-row justify-between'>
                 <h1 className='text-xl font-bold'>Detail Pelamar</h1>
                 <Breadcrumb breadcrumbs={breadcrumb} />
             </div>
-            <div className='grid grid-cols-2 w-[80%] gap-5'>
+            <div className='grid grid-cols-2 w-[100%] lg:w-[80%] gap-5'>
                 <div>
                     <p className="py-1">Nama Lengkap</p>
                     <div className='w-full h-8 px-3 py-1 rounded-md bg-white'>{item.nama_lengkap}</div>

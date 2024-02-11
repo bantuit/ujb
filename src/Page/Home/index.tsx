@@ -9,16 +9,14 @@ import Footer from '../../Component/Footer'
 
 const index = () => {
     return (
-        <div >
-            <div className='home'>
-            <Navbar/>
+        <div className='home bg-white'  >
+            <Navbar />
             <Summary />
             <LayananKami />
             <Partner />
             <Legalitas />
             <Email />
-            <Footer/>
-            </div>
+            <Footer />
         </div>
     )
 }

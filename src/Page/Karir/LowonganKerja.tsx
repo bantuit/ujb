@@ -66,22 +66,27 @@ const LowonganKerja = () => {
             return (
               <>
                 <div key={index} className="card w-80 bg-base-100 shadow-xl">
-                  <div className="card-body flex items-center ">
+                  <div className="card-body flex justify-between items-center space-y-5">
                     <h2 className="card-title text-center ">{item.posisi}</h2>
-                    <div>
-                      <p>Kualifikasi:</p>
+                    <div className="h-full w-full"> 
+                      <p className="font-bold">Kualifikasi:</p>
                       {item.kualifikasi?.map((item: string, index) => {
                         return (
                           <p key={index} className='text-sm'>{index + 1} {item}</p>
                         )
                       })}
+                      <p className="font-bold">Jobdesk:</p>
+                      {item.jobdesk?.map((item: string, index) => {
+                        return (
+                          <p key={index} className='text-sm'>{index + 1} {item}</p>
+                        )
+                      })}
                     </div>
-                    <div className="card-actions justify-end mt-10">
+                    <div className="card-actions items-end justify-end mt-10">
                       <button className="btn btn-outline btn-info" onClick={() => navigate(`/karir/lamar-kerja/${item.posisi}`)}>Lamar Sekarang <IoIosArrowRoundForward /></button>
                     </div>
                   </div>
                 </div>
-
               </>
             )
           })}

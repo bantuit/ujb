@@ -7,7 +7,7 @@ import getolIcon from '../../assets/getol.svg'
 
 const LayananKami = () => {
   return (
-    <div className="h-fit lg:h-fit px-5 w-full flex flex-col items-center space-y-7 py-10  ">
+    <div className="h-fit lg:h-fit px-5 w-full flex flex-col items-center space-y-7 py-10 bg-transparent ">
       <h1 className="font-bold text-center text-4xl md:text-6xl">Layanan Kami</h1>
       <div className="w-full h-fit flex justify-center items-center gap-3 flex-wrap ">
         <div className="card w-64 h-96  bg-base-100 shadow-xl border-t-8 border-[#006FC0]  ">

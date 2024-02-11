@@ -24,7 +24,7 @@ import faruq from '../../assets/faruq.jpg';
 
 const Partner = () => {
   return (
-    <div id='partner' className="h-fit w-full flex flex-col items-center ">
+    <div id='partner' className="h-fit w-full flex flex-col items-center bg-white ">
       <h1 className="font-bold text-4xl md:text-6xl pt-10 z-20">Partner Kami</h1>
       <div className="w-full h-full flex justify-center items-center gap-3 flex-wrap p-10 ">
         <Swiper

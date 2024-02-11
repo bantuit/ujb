@@ -1,18 +1,18 @@
 import { useCookies } from 'react-cookie'
-import logo from '../../assets/logo-svg.svg'
 
 const Profile = () => {
   const [cookies] = useCookies(['username']);
-
+  const kalimat = cookies.username
+  const karakterPertama = kalimat.charAt(0);
   return (
     <div className="w-full md:w-1/2 h-[85vh] space-y-5 py-10 px-2">
       <h1 className='font-bold text-2xl'>Profile</h1>
       <div>
-        <div className="avatar">
-          <div className="w-24 rounded-full">
-            <img src={logo} />
+        {/* <div className="avatar"> */}
+          <div className="bg-neutral rounded-full h-20 w-20 flex justify-center items-center text-white">
+            <span className="text-4xl ">{karakterPertama}</span>
           </div>
-        </div>
+        {/* </div> */}
       </div>
       <div className='space-y-2'>
         <p className='text-md text-gray-500'>Nama Lengkap</p>

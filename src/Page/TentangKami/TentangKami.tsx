@@ -1,5 +1,5 @@
 import Navbar from '../../Component/Navbar'
-import city from '../../assets/tentangKamiImg.png'
+import tentangKami from '../../assets/tentang-kami-bg.jpeg'
 
 const TentangKami = () => {
     return (
@@ -9,7 +9,7 @@ const TentangKami = () => {
                 <h1 className='text-5xl font-bold z-20 lg:text-white'>Tentang Kami</h1>
                 <div className='flex justify-between items-start md:flex-row flex-col md:lex-row font-bold text-black z-20'>
                     <div className='w-full md:w-1/3 flex justify-center px-10 md:px-0 mb-16 md:mb-0'>
-                        <img className=' w-1/2 md:w-[80%] ' src={city} alt="" />
+                        <img className=' w-1/2 md:w-[80%] ' src={tentangKami} alt="" />
                     </div>
                     <div className='w-full px-5 md:px-0 md:w-[60%] flex justify-center flex-col space-y-6 lg:text-white  '>
                         <p>PT. Urusan Jaga Banda adalah salah satu perusahaan yang bergerak dibidang pelayanan jasa, dan sedang berkembang pesat dalam melayani kebutuhan jasa di seluruh Indonesia.</p>
