@@ -26,21 +26,32 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+.visi-misi { 
+    background-image: url('../src/assets/visi-misi-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 .layanan {
     background-image: url('../src/assets/bg2.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
+.getol {
+    background-image: url('../src/assets/lembaga-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 .karir {
-    height: 80vh;
-    background-image: url('../src/assets/bg-partner.png');
+    height: 125vh;
+    background-image: url('../src/assets/visi-misi-bg.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 .hubungi {
-    height: 80vh;
     background-image: url('../src/assets/bg-partner.png');
     background-size: cover;
     background-position: center;
@@ -60,4 +71,6 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+
+
 

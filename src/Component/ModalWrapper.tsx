@@ -1,25 +1,35 @@
 import React from 'react'
-
+import { MdDelete } from "react-icons/md";
 
 interface ModalProps {
     children: React.ReactNode
     showModal: boolean
     setShowModal: () => void
-    style:string
-    title:string
+    style: string
+    title?: string
+    type: 'edit' | 'delete' | 'normal'
 
 }
 
-const ModalWrapper = ({ children, showModal, setShowModal, style, title }: ModalProps) => {
+const ModalWrapper = ({ children, showModal, setShowModal, style, title, type }: ModalProps) => {
     return (
         <>
-            <button
-                className={style}
-                type="button"
-                onClick={setShowModal}
-            >
-                {title}
-            </button>
+            {type == 'delete'
+                ?
+                <button
+                    className={style}
+                    type="button"
+                    onClick={setShowModal}
+                >
+                    <MdDelete className='text-red-500 ' />
+                </button>
+                : <button
+                    className={style}
+                    type="button"
+                    onClick={setShowModal}
+                >
+                   {title}
+                </button>}
             {showModal ? (
                 <>
                     <div
@@ -33,7 +43,7 @@ const ModalWrapper = ({ children, showModal, setShowModal, style, title }: Modal
                             </div>
                         </div>
                     </div>
-                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                    <div className="opacity-5 fixed inset-0 z-40 bg-black"></div>
                 </>
             ) : null}
         </>

@@ -1,14 +1,16 @@
 import parkir1 from '../../assets/parkir1.png'
 import parkir2 from '../../assets/parkir2.png'
-import img1 from '../../assets/img1.png'
 import parkir3 from '../../assets/parkir3.png'
+import Navbar from '../../Component/Navbar'
+import Footer from '../../Component/Footer'
 
 
 const JawaraParkir = () => {
     return (
-        <div>
+        <div className='layanan h-[900px] -z-20'>
+            <Navbar />
             <div className='w-full h-fit lg:h-fit flex flex-col justify-start gap-10 items-center space-y-5 py-20 md:text-white'>
-                <h1 className='text-4xl font-extrabold z-20'>Tentang Kami</h1>
+                <h1 className='text-4xl font-bold z-20'>Tentang Kami</h1>
                 <div className='w-full  flex justify-between px-5 lg:px-10 items-start md:flex-row flex-col md:lex-row font-bold z-20'>
                     <div className='w-full md:w-1/3 flex justify-center px-10 md:px-0 mb-16 md:mb-0'>
                         <img className=' w-full md:w-full ' src={parkir1} alt="" />
@@ -24,7 +26,7 @@ const JawaraParkir = () => {
                 </div>
             </div>
             <div className='w-full h-fit lg:h-fit px-5 md:px-10 flex flex-col justify-start gap-10 items-center space-y-5 py-10'>
-                <h1 className='text-4xl font-extrabold z-20'>Visi dan Misi</h1>
+                <h1 className='text-4xl font-bold z-20'>Visi dan Misi</h1>
                 <div className='w-full flex items-start font-bold text-black '>
                     <div className='w-full md:px-0 flex  flex-col space-y-8 z-20 '>
                         <ul>
@@ -45,7 +47,7 @@ const JawaraParkir = () => {
                 </div>
             </div>
             <div className='w-full h-fit lg:h-fit flex flex-col justify-start gap-10 items-start px-5 space-y-5 pt-10'>
-                <h1 className='text-4xl font-extrabold z-20'>Pelayanan</h1>
+                <h1 className='text-4xl font-bold z-20'>Pelayanan</h1>
                 <div className='flex w-full justify-evenly items-start md:items-center lg:flex-row flex-col-reverse font-bold text-black z-20'>
                     <div className='w-full px-5 md:px-0 md:w-full flex justify-center flex-col space-y-8  '>
                         <div className='w-fit h-1/2 space-y-5  '>
@@ -79,13 +81,13 @@ const JawaraParkir = () => {
                     <div className='w-fit h-fit md:w-1/2 grid grid-cols-2 justify-start items-center px-10 md:px-0 gap-3 mb-10 md:mb-0'>
                         <img className='w-32 md:w-full rounded-lg' src={parkir2} alt="" />
                         <img className='w-32 md:w-full rounded-lg' src={parkir3} alt="" />
-                        <img className='w-32 md:w-full rounded-lg' src={img1} alt="" />
-                        <img className='w-32 md:w-full rounded-lg' src={img1} alt="" />
+                        <img className='w-32 md:w-full rounded-lg' src={parkir3} alt="" />
+                        <img className='w-32 md:w-full rounded-lg' src={parkir2} alt="" />
                     </div>
                 </div>
             </div>
             <div className='w-full h-fit lg:h-fit px-5 md:px-10 flex flex-col justify-start gap-10 items-center space-y-5 py-10'>
-                <h1 className='text-4xl font-extrabold z-20'>Bentuk Kerjasama</h1>
+                <h1 className='text-4xl font-bold z-20'>Bentuk Kerjasama</h1>
                 <div className='w-full flex items-start font-bold text-black '>
                     <div className='w-full md:px-0 flex  flex-col space-y-8  '>
                         <div>
@@ -111,7 +113,7 @@ const JawaraParkir = () => {
                 </div>
             </div>
             <div className='w-full h-fit lg:h-fit px-5 md:px-10 flex flex-col justify-start gap-10 items-center space-y-5 py-10'>
-                <h1 className='text-4xl font-extrabold z-20'>Jawara Parkir Solution</h1>
+                <h1 className='text-4xl font-bold z-20'>Jawara Parkir Solution</h1>
                 <div className='w-full flex items-start font-bold text-black z-20'>
                     <div className='w-full md:px-0 flex  flex-col space-y-8  '>
                         <div>
@@ -128,6 +130,7 @@ const JawaraParkir = () => {
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
     )
 }

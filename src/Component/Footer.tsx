@@ -30,8 +30,8 @@ const Footer = () => {
                     </nav>
                 <nav>
                     <header className="font-bold mb-3">Berita</header>
-                    <a className="link link-hover">SDM</a>
-                    <a className="link link-hover">Rekruitment</a>
+                    <a href="/layanan-kami/getol" className="link link-hover">SDM</a>
+                    <a href="/karir/lowongan-kerja" className="link link-hover">Rekruitment</a>
                 </nav>
                 <nav className='w-44'>
                     <header className="font-bold mb-3">Contact</header>

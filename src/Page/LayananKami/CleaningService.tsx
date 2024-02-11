@@ -1,3 +1,5 @@
+import Footer from '../../Component/Footer'
+import Navbar from '../../Component/Navbar'
 import cleaning1 from '../../assets/cleaning1.png'
 import cleaning2 from '../../assets/cleaning2.png'
 import cleaning3 from '../../assets/cleaning3.png'
@@ -6,9 +8,10 @@ import cleaning4 from '../../assets/cleaning4.png'
 
 const CleaningService = () => {
     return (
-        <div    >
+        <div className='layanan h-[900px] -z-20'>
+            <Navbar />
             <div className='w-full h-fit lg:h-fit flex flex-col justify-start gap-10 items-center space-y-5 py-20 z-20 md:text-white'>
-                <h1 className='text-4xl font-extrabold z-20'>Tentang Kami</h1>
+                <h1 className='text-4xl font-bold z-20'>Tentang Kami</h1>
                 <div className='w-full flex gap-10 justify-between px-5 lg:px-10 items-start md:flex-row flex-col md:lex-row font-bold z-20 '>
                     <div className='w-full bg-red-100 md:w-1/3 flex justify-center px-10 md:px-0 mb-16 md:mb-0'>
                         <img className='w-full md:w-full ' src={cleaning1} alt="" />
@@ -35,13 +38,13 @@ const CleaningService = () => {
                 </div>
             </div>
             <div className='w-full h-fit lg:h-fit px-5 md:px-10 flex flex-col justify-start gap-10 items-center space-y-5 py-10 z-20'>
-                <h1 className='text-4xl font-extrabold z-20'>Visi dan Misi</h1>
+                <h1 className='text-4xl font-bold z-20'>Visi dan Misi</h1>
                 <div className='w-full flex items-start font-bold text-black '>
                     <div className='w-full md:px-0 flex  flex-col space-y-8  z-20'>
                         <ul>
                             <p className='font-bold text-2xl'>VISI</p>
-                            <li className='list-disc ml-7 w-full lg:w-1/2'>Menjadi perusahaan penyedia jasa perwatan dan pemeliharaan kebersihan terpercaya dan
-                                handal</li>
+                            <li className='list-disc ml-7 w-full lg:w-1/2'>Menjadi perusahaan penyedia jasa perawatan dan pemeliharaan kebersihan terpercaya dan
+                                handal.</li>
                         </ul>
                         <div className='w-[80vw]'>
                             <p className='font-bold text-2xl'>MISI</p>
@@ -57,7 +60,7 @@ const CleaningService = () => {
                 </div>
             </div>
             <div className='w-full h-fit lg:h-fit flex flex-col justify-start gap-10 items-start px-5 space-y-5 pt-10 z-20'>
-                <h1 className='text-4xl font-extrabold'>Sarana Penunjang</h1>
+                <h1 className='text-4xl font-bold'>Sarana Penunjang</h1>
                 <div className='flex w-full justify-evenly items-start md:items-center lg:flex-row flex-col-reverse font-bold text-black z-20 '>
                     <div className='w-full px-5 md:px-0 md:w-full flex justify-center flex-col space-y-8  '>
                         <p className='lg:w-[50vw]'>Management profesional PT.Urusan Jaga Banda menawarkan untuk memenuhi kebutuhan
@@ -146,7 +149,7 @@ const CleaningService = () => {
                 </div>
             </div>
             <div className='w-full h-fit lg:h-fit px-5 md:px-10 flex flex-col justify-start gap-10 items-center space-y-5 py-10'>
-                <h1 className='text-4xl font-extrabold'>Quality Management System</h1>
+                <h1 className='text-4xl font-bold'>Quality Management System</h1>
                 <div className='w-full flex items-start font-bold text-black '>
                     <div className='w-full md:px-0 flex  flex-col space-y-8  '>
                         <div>
@@ -162,6 +165,7 @@ const CleaningService = () => {
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
     )
 }

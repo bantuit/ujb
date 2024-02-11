@@ -20,13 +20,13 @@ export interface listPelamarType {
   lampiran: string;
   pendidikan_terakhir: string;
   ukuran_sepatu: string;
-  waktu: string;
+  date_time: string;
 }
 [];
 
 export interface createLowonganType {
   id?: string;
-  posisi: string;
+  posisi: string | undefined;
   kualifikasi: {
     item: string;
   }[];
@@ -53,3 +53,22 @@ export interface ActivityCountType {
 export interface DropdownPositiontType {
   posisi: string;
 }[]
+
+
+interface FormField {
+  label: string;
+  name: string;
+  type: 'text' | 'date' | 'dropdown' | 'number' | 'group' | 'radio';
+  options?: string[]; // Only required for dropdown and radio types
+}
+
+interface FormGroup {
+  name: string;
+  type: 'group';
+  data: FormField[];
+}
+
+type FormItem = FormField | FormGroup;
+
+// Define interface for the array of form items
+export interface FormItemsType extends Array<FormItem> {}

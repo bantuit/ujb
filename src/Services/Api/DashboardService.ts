@@ -11,6 +11,13 @@ const CreateLowongan = async (token: string, body: createLowonganType) => {
     }
   });
 };
+const UpdateLowongan = async (token: string, body: createLowonganType) => {
+  return baseUrl.put(`/api/job/${body.id}`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+};
 const listLowongan = async (token: string, queryparams?:queryparamsType) => {
   return baseUrl.get(`/api/job`, {
     params: queryparams,
@@ -59,7 +66,7 @@ const dropdowPosisi = async (token: string) => {
 };
 
 const downloadLampiran = async (lampiran:string) => {
-  return baseUrl.get(`/api/requirement/download/${lampiran}`, {
+  return baseUrl.get(`https://ujb.biz.id/api/requirement/download/${lampiran}`, {
     headers: {
       'Content-Type': 'application/pdf'
     },
@@ -68,6 +75,7 @@ const downloadLampiran = async (lampiran:string) => {
 
 const dashboardService = {
   CreateLowongan,
+  UpdateLowongan,
   listLowongan,
   deleteLowongan,
   GetActivityCount,

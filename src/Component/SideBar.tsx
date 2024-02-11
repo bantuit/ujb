@@ -28,7 +28,7 @@ const SideBar = ({ condition, closeSidebar }: SideBarProps) => {
                 <a href="/" className='flex items-center gap-1 font-bold text-gray-500'><AiOutlineHome /> Home Page</a>
                 <a href="/dashboard/profile" className='flex items-center gap-1 font-bold text-gray-500'><CgProfile /> Profile</a>
             </div>
-            <div className='flex items-center gap-1 font-bold text-gray-500 cursor-pointer' onClick={() => navigate('/login')}><CiLogout /> Logout </div>
+            <div className='flex items-center gap-1 font-bold text-gray-500 cursor-pointer absolute bottom-3 left-4' onClick={() => navigate('/login')}><CiLogout /> Logout </div>
         </div>
     )
 }

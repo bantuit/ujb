@@ -12,12 +12,15 @@ type LoginType = {
 const Login = () => {
     const navigate = useNavigate()
     const [, setCookie] = useCookies(['token','username'])
+    const [isLoading, setIsLoading] = useState(false); // State to manage loading state
+
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
     const save = async () => {
         // setIsLoading(true);
+        setIsLoading(true);
         try {
             const body:LoginType = {
                 username: username,
@@ -26,10 +29,10 @@ const Login = () => {
             const response = await authServices.login(body);
             setCookie('token', JSON.stringify(response.data.data.accessToken), { path: "/" });
             setCookie('username', JSON.stringify(username), { path: "/" });
+            setIsLoading(false);
             navigate('/dashboard')
-            // console.log(cookies.token);
         } finally {
-            // setIsLoading(false);
+            setIsLoading(false);
         }
     };
 
@@ -48,7 +51,9 @@ const Login = () => {
                         <label>Password</label>
                         <input type="password" placeholder="Type here" onChange={(e) => setPassword(e.target.value)} className="input input-bordered input-sm w-full " />
                     </div>
-                    <button className="w-64 btn btn-sm bg-[#12AE57] text-white btn-success" onClick={save}>Masuk</button>
+                    <button className="w-64 btn btn-sm bg-[#12AE57] text-white btn-success" onClick={save}>
+                    {isLoading ? <div className='flex flex-row justify-center items-center gap-2'><span className="loading loading-spinner loading-sm">kirim</span> <span>Loading..</span></div> : 'kirim'}
+                    </button>
                 </div>
             </div>
         </div>

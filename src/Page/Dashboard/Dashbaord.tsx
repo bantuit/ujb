@@ -1,185 +1,337 @@
-import lamaranTerbaru from '../../assets/lowonganTerbaru.svg'
-import jumlahpelamar from '../../assets/jumlaPelamar.png'
-import lamaranDiproses from '../../assets/proses.svg'
-import { ACTIVITY_COUNT } from '../../Const/Dashboard'
-import DropdownButton from '../../Component/DropdownBtn'
-import { BsDownload } from "react-icons/bs";
-import { IoEyeOutline } from "react-icons/io5";
-import { TiEdit } from "react-icons/ti";
-import { useNavigate } from 'react-router-dom'
-import ModalWrapper from '../../Component/ModalWrapper'
-import ModalDelete from '../../Component/ModalDelete'
-import { useEffect, useState } from 'react'
-import dashboardService from '../../Services/Api/DashboardService'
-import { useCookies } from 'react-cookie'
-import { ActivityCountType, createLowonganType, listLowonganType, listPelamarType } from '../../Type/DashboardType'
-import { queryparamsType } from '../../Type/PaginationType'
-import React from 'react'
-import ModalHeader from '../../Component/ModalHeader'
-import { downloadFile } from '../../Utils/DownloadFile'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { BsDownload } from 'react-icons/bs';
+import { IoEyeOutline } from 'react-icons/io5';
+import { TiEdit } from 'react-icons/ti';
+import { useCookies } from 'react-cookie';
+import dashboardService from '../../Services/Api/DashboardService';
+import DropdownButton from '../../Component/DropdownBtn';
+import ModalWrapper from '../../Component/ModalWrapper';
+import ModalHeader from '../../Component/ModalHeader';
+import {
+  ActivityCountType,
+  DropdownPositiontType,
+  createLowonganType,
+  listLowonganType,
+  listPelamarType
+} from '../../Type/DashboardType';
+import { queryparamsType } from '../../Type/PaginationType';
+import lamaranTerbaru from '../../assets/lowonganTerbaru.svg';
+import jumlahpelamar from '../../assets/jumlaPelamar.png';
+import lamaranDiproses from '../../assets/proses.svg';
+import Pagination from '../../Component/Pagination';
+import Swal from 'sweetalert2';
+import { MdDelete } from 'react-icons/md';
 
 
 const Dashbaord = () => {
-  const [listPelamar, setListPelamar] = useState<listPelamarType[]>()
-  const [activityCount, setActivityCount] = useState<ActivityCountType>(ACTIVITY_COUNT)
   const navigate = useNavigate();
   const [cookies] = useCookies(['token']);
-  const [dataLowongan, setDataLowongan] = useState([])
-  const [searchTerm, SetsearchTerm] = useState('')
-  const [searchTermPelamar, setSearchTermPelamar] = useState('')
-  const [selectedItem, setSelectedItem] = useState('')
+  const [listPelamar, setListPelamar] = useState<listPelamarType[]>();
+  const [activityCount, setActivityCount] = useState<ActivityCountType>();
+  const [dataLowongan, setDataLowongan] = useState<listLowonganType[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTermPelamar, setSearchTermPelamar] = useState('');
+  const [selectedItem, setSelectedItem] = useState('');
   const [posisi, setPosisi] = useState<string>('');
-  const [showModal, setShowModal] = React.useState(false);
-  const [modalDelete, setModalDelete] = React.useState(false);
-  const [modalDeletePelamar, setModalDeletePelamar] = React.useState(false);
-  const [dropdownData, setDropdownData] = React.useState([]);
-
-  const queryparams: queryparamsType = {
-    SearchTerm: '',
-    PageSize: 10,
-    PageNumber: 1
-  }
-
-
-
+  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [dropdownData, setDropdownData] = useState<DropdownPositiontType[]>([]);
   const [countKualifikasi, setCountKualifikasi] = useState<number>(1);
   const [countJobdesk, setCountJobdesk] = useState<number>(1);
   const [kualifikasiValues, setKualifikasiValues] = useState<string[]>(Array.from({ length: countKualifikasi }, () => ''));
   const [inputJobdesk, setInputJobdesk] = useState<string[]>(Array.from({ length: countJobdesk }, () => ''));
+  const [selectedLowongan, setSelectedLowongan] = useState<listLowonganType | null>(null);
+  const [initialKualifikasiValues, setInitialKualifikasiValues] = useState<string[]>([]);
+  const [initialJobdeskValues, setInitialJobdeskValues] = useState<string[]>([]);
+  const [idUpdate, setIdUpdate] = useState('')
+  const [paginationInfo, setPaginationInfo] = useState<queryparamsType>({
+    PageNumber: 1,
+    TotalPages: 1,
+    PageSize: 10,
+    TotalCount: 0,
+    SearchTerm: '',
+    HasNext: true
+  });
+  const [paginationPelamar, setPaginationPelamar] = useState<queryparamsType>({
+    PageNumber: 1,
+    TotalPages: 1,
+    PageSize: 10,
+    TotalCount: 0,
+    SearchTerm: '',
+    HasNext: true
+  });
+
+
+  useEffect(() => {
+    getData(cookies.token, paginationInfo);
+    getPelamar(cookies.token, paginationPelamar);
+    getActivity();
+    getDropdownList();
+  }, []);
+
+  useEffect(() => {
+    const updatedPaginationInfo = {
+      ...paginationInfo,
+      searchTerm: searchTerm
+    };
+    getData(cookies.token, updatedPaginationInfo);
+  }, [searchTerm]);
+
+  useEffect(() => {
+    if (selectedItem !== '') {
+      const updatedPaginationPelamar = {
+        ...paginationPelamar,
+        searchTerm: selectedItem
+      };
+      paginationPelamar.SearchTerm = selectedItem;
+      getPelamar(cookies.token, updatedPaginationPelamar);
+    } else {
+      const updatedPaginationPelamar = {
+        ...paginationPelamar,
+        searchTerm: searchTermPelamar
+      };
+      getPelamar(cookies.token, updatedPaginationPelamar);
+    }
+  }, [searchTermPelamar, selectedItem]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const newInputValues = [...kualifikasiValues];
-    newInputValues[index] = event.target.value;
-    setKualifikasiValues(newInputValues);
+    if (idUpdate) {
+      const newInputValues = [...initialKualifikasiValues];
+      newInputValues[index] = event.target.value;
+      setInitialKualifikasiValues(newInputValues);
+    } else {
+      const newInputValues = [...kualifikasiValues];
+      newInputValues[index] = event.target.value;
+      setKualifikasiValues(newInputValues);
+    }
   };
+
   const handleInputChangeJobdesk = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const newInputValues = [...inputJobdesk];
-    newInputValues[index] = event.target.value;
-    setInputJobdesk(newInputValues);
+    if (idUpdate) {
+      const newInputValues = [...initialJobdeskValues];
+      newInputValues[index] = event.target.value;
+      setInitialJobdeskValues(newInputValues);
+    } else {
+      const newInputValues = [...inputJobdesk];
+      newInputValues[index] = event.target.value;
+      setInputJobdesk(newInputValues);
+    }
   };
 
   const handleAddClick = () => {
-    setCountKualifikasi(countKualifikasi + 1);
-    setKualifikasiValues([...kualifikasiValues, '']);
+    if (idUpdate) {
+      setCountKualifikasi(initialKualifikasiValues.length + 1);
+      setInitialKualifikasiValues([...initialKualifikasiValues, '']);
+    } else {
+      setCountKualifikasi(countKualifikasi + 1);
+      setKualifikasiValues([...kualifikasiValues, '']);
+    }
   };
+
   const handleAddClickJobdesk = () => {
-    setCountJobdesk(countJobdesk + 1);
-    setInputJobdesk([...inputJobdesk, '']);
+    if (idUpdate) {
+      setCountJobdesk(initialJobdeskValues.length + 1);
+      setInitialJobdeskValues([...initialJobdeskValues, '']);
+    } else {
+      setCountJobdesk(countJobdesk + 1);
+      setInputJobdesk([...inputJobdesk, '']);
+    }
   };
-  useEffect(() => {
-    console.log(posisi);
-    console.log(kualifikasiValues);
-    console.log(inputJobdesk);
-  }, [kualifikasiValues, inputJobdesk, posisi]);
 
   const getData = async (token: string, queryparams: queryparamsType) => {
     try {
-      const response = await dashboardService.listLowongan(token, queryparams)
-      setDataLowongan(response.data.data)
-      console.log('g', response.data)
+      const response = await dashboardService.listLowongan(token, queryparams);
+      setDataLowongan(response.data.data);
+      const paginationData = await JSON.parse(response.headers['x-pagination']);
+      setPaginationInfo({
+        PageNumber: paginationData.page_number,
+        TotalPages: paginationData.total_page,
+        PageSize: paginationData.page_size,
+        TotalCount: paginationData.total_count,
+        HasNext: paginationData.has_next
+      });
     } finally { /* empty */ }
-  }
+  };
 
   const getActivity = async () => {
     try {
-      const response = await dashboardService.GetActivityCount(cookies.token)
-      setActivityCount(response.data.data)
+      const response = await dashboardService.GetActivityCount(cookies.token);
+      setActivityCount(response.data.data);
     } finally { /* empty */ }
+  };
+  const resetLowongan = () => {
+    setInputJobdesk([''])
+    setKualifikasiValues([''])
+    setSelectedLowongan(null)
+    setIdUpdate('')
+    setPosisi('')
   }
 
   const save = async () => {
-    // setIsLoading(true);
     try {
-      const kualifikasiData = kualifikasiValues.map(function (item) {
-        return { item: item };
-      });
-      const jobdeskData = inputJobdesk.map(function (item) {
-        return { item: item };
-      });
+      let kualifikasiData: { item: string }[] = [];
+      let jobdeskData: { item: string }[] = [];
+      if (idUpdate) {
+        jobdeskData = initialJobdeskValues.map(item => ({ item }));
+        kualifikasiData = initialKualifikasiValues.map(item => ({ item }));
+      } else {
+        jobdeskData = inputJobdesk.map(item => ({ item }));
+        kualifikasiData = kualifikasiValues.map(item => ({ item }));
+      }
 
       const body: createLowonganType = {
         posisi: posisi,
         kualifikasi: kualifikasiData,
         jobdesk: jobdeskData,
       };
+
       await dashboardService.CreateLowongan(cookies.token, body);
-      setShowModal(false)
-      getData(cookies.token, queryparams)
-      getActivity()
-    } finally {
-      /* empty */
+      await getData(cookies.token, paginationInfo);
+      resetLowongan()
+      await getActivity();
+      setShowModal(false);
+    } finally { /* empty */ }
+  };
+
+  const edit = async () => {
+    setIsLoading(true)
+    try {
+      const kualifikasiData = initialKualifikasiValues.map(item => ({ item }));
+      const jobdeskData = initialJobdeskValues.map(item => ({ item }));
+
+      const body: createLowonganType = {
+        id: idUpdate,
+        posisi: selectedLowongan?.posisi,
+        kualifikasi: kualifikasiData,
+        jobdesk: jobdeskData,
+      };
+
+      await dashboardService.UpdateLowongan(cookies.token, body);
+      await getData(cookies.token, paginationInfo);
+      resetLowongan()
+      setShowModal(false);
+      setIsLoading(false)
+    } catch {
+      setIsLoading(false)
     }
   };
 
-  const deleteFunc = (id: string) => {
+  const deleteFunc = async (id: string, posisi: string) => {
     try {
-      dashboardService.deleteLowongan(cookies.token, id)
-      setModalDelete(false)
-      getData(cookies.token, queryparams)
-    } finally { /* empty */ }
-  }
+      const result = await Swal.fire({
+        title: `Apakah anda ingin menghapus ${posisi}?`,
+        text: "Anda tidak akan dapat mengembalikannya!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "ya, hapus!"
+      });
 
-  const deletePelamar = (id: string) => {
-    try {
-      dashboardService.deletePelamar(cookies.token, id)
-      setModalDeletePelamar(false)
-      getData(cookies.token, queryparams)
-    } finally { /* empty */ }
-  }
+      if (result.isConfirmed) {
+        // User confirmed the delete action
+        await dashboardService.deleteLowongan(cookies.token, id);
+        await getActivity();
+        await getData(cookies.token, paginationInfo);
 
-
+        Swal.fire({
+          title: "Terhapus!",
+          text: "File anda sudah terhapus.",
+          icon: "success"
+        });
+      }
+    } catch (error) {
+      console.error("Error deleting item:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "An error occurred while deleting the file.",
+        icon: "error"
+      });
+    }
+  };
 
   const getPelamar = async (token: string, queryparams: queryparamsType) => {
     try {
-      const response = await dashboardService.ListPelamar(token, queryparams)
-      setListPelamar(response.data.data)
+      const response = await dashboardService.ListPelamar(token, queryparams);
+      setListPelamar(response.data.data);
+      const paginationData = await JSON.parse(response.headers['x-pagination']);
+      setPaginationPelamar({
+        PageNumber: paginationData.page_number,
+        TotalPages: paginationData.total_page,
+        PageSize: paginationData.page_size,
+        TotalCount: paginationData.total_count,
+        HasNext: paginationData.has_next
+      });
     } finally { /* empty */ }
-  }
+  };
 
-  useEffect(() => {
-    queryparams.SearchTerm = searchTerm
-    getData(cookies.token, queryparams)
-  }, [searchTerm])
-  useEffect(() => {
-    if (selectedItem !== '') {
-      queryparams.SearchTerm = selectedItem
-      getPelamar(cookies.token, queryparams)
-    } else {
-      queryparams.SearchTerm = searchTermPelamar
-      getPelamar(cookies.token, queryparams)
-    }
-  }, [searchTermPelamar, selectedItem])
-
-
-  const getDropdownList = async () => {
-    const response = await dashboardService.dropdowPosisi(cookies.token)
-    setDropdownData(response.data.data)
-  }
-
-
-  useEffect(() => {
-    getData(cookies.token, queryparams)
-    getPelamar(cookies.token, queryparams)
-    getActivity()
-    getDropdownList()
-  }, [])
-
-  const [dropDownOpen, setDropDownOpen] = useState(false)
-
-  const selectDropdown = (e: string) => {
-    setSelectedItem(e)
-    setDropDownOpen(false)
-  }
-
-  const download = async (lampiran:string) => {
+  const deletePelamar = async (id: string, posisi: string) => {
     try {
-      const response = await dashboardService.downloadLampiran( lampiran);
-      downloadFile(response.data);
+      const result = await Swal.fire({
+        title: `Apakah anda ingin menghapus ${posisi}?`,
+        text: "Anda tidak akan dapat mengembalikannya!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "ya, hapus!"
+      });
+
+      if (result.isConfirmed) {
+        await dashboardService.deletePelamar(cookies.token, id);
+        await getActivity();
+        await getPelamar(cookies.token, paginationInfo);
+
+        Swal.fire({
+          title: "Terhapus!",
+          text: "File anda sudah terhapus.",
+          icon: "success"
+        });
+      }
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        title: "Error!",
+        text: "Terdapat masalah ketika menghapus file anda.",
+        icon: "error"
+      });
     }
   };
 
+  const getDropdownList = async () => {
+    const response = await dashboardService.dropdowPosisi(cookies.token);
+    setDropdownData(response.data.data);
+  };
+
+  const selectDropdown = (e: string) => {
+    setSelectedItem(e);
+    setDropDownOpen(false);
+  };
+
+  const [dropDownOpen, setDropDownOpen] = useState(false);
+
+  const handlePageClick = (pageNumber: number) => {
+    const updatedPaginationInfo = {
+      ...paginationInfo,
+      PageNumber: pageNumber
+    };
+    getData(cookies.token, updatedPaginationInfo);
+  };
+  const handleNextPelamar = (pageNumber: number) => {
+    const updatedPaginationPelamar = {
+      ...paginationPelamar,
+      PageNumber: pageNumber
+    };
+    getPelamar(cookies.token, updatedPaginationPelamar);
+  };
+
+  const handleUpdateLowongan = (lowongan: listLowonganType) => {
+    setSelectedLowongan(lowongan);
+    setIdUpdate(lowongan.id)
+    setInitialKualifikasiValues(lowongan.kualifikasi);
+    setInitialJobdeskValues(lowongan.jobdesk)
+    setShowModal(true); 
+  }
 
   return (
     <div className="w-full h-fit px-2 space-y-5">
@@ -190,7 +342,7 @@ const Dashbaord = () => {
             <img className='w-7 h-7' src={lamaranTerbaru} alt="" />Lowongan Terbaru
           </div>
           <div className="font-bold text-5xl">
-            {activityCount?.loker_terbaru}
+            {activityCount?.loker_terbaru !== undefined ? activityCount?.loker_terbaru : '-'}
           </div>
         </div>
         <div className=" h-32 border-4 drop-shadow-lg border-[#12AE57] bg-[#fff] grid grid-rows-2 p-3">
@@ -198,7 +350,7 @@ const Dashbaord = () => {
             <img className='w-7 h-7' src={jumlahpelamar} alt="" /> Jumlah Pelamar
           </div>
           <div className="font-bold text-5xl">
-            {activityCount?.jumlah_pelamar}
+            {activityCount?.jumlah_pelamar !== undefined ? activityCount?.jumlah_pelamar : '-'}
           </div>
         </div>
         <div className=" h-32 border-4 drop-shadow-lg border-[#FFC000] bg-[#fff]  grid grid-rows-2 p-3">
@@ -206,7 +358,7 @@ const Dashbaord = () => {
             <img className='w-7 h-7' src={lamaranDiproses} alt="" /> Lamaran Yang Diproses
           </div>
           <div className="font-bold text-5xl">
-            {activityCount?.lamaran}
+            {activityCount?.lamaran !== undefined ? activityCount?.lamaran : '-'}
           </div>
         </div>
       </div>
@@ -218,83 +370,96 @@ const Dashbaord = () => {
         </div>
         <div className="" >
           <div className="overflow-x-auto">
-            <table className="table w-full">
+            <table className="table table-auto w-full">
               <thead className="bg-[#698E94] text-white">
                 <tr>
                   <th className='text-center'>No</th>
-                  <th>Nama Lengkap</th>
-                  <th>Nama Panggilan</th>
-                  <th>Tempat Lahir</th>
-                  <th>Tanggal Lahir</th>
-                  <th>Agama</th>
-                  <th>Jenis Kelamin</th>
-                  <th>Pendidikan Terakhir</th>
-                  <th>Status Pernikahan</th>
-                  <th>Nomer Telepon</th>
-                  <th>Nomer KTP</th>
-                  <th>Nomer NPWP</th>
-                  <th>Nomer KTA</th>
-                  <th>Tinggi Badan</th>
-                  <th>Berat Badan</th>
-                  <th>Ukuran Baju</th>
-                  <th>Ukuran Celana</th>
-                  <th>Ukuran Sepatu</th>
-                  <th>Alamat Tinggal</th>
-                  <th>Lampiran</th>
-                  <th>Aksi</th>
+                  <th className='text-center'>Posisi</th>
+                  <th className='text-center'>Nama Lengkap</th>
+                  <th className='text-center'>Nama Panggilan</th>
+                  <th className='text-center'>Tempat Lahir</th>
+                  <th className='text-center'>Tanggal Lahir</th>
+                  <th className='text-center'>Agama</th>
+                  <th className='text-center'>Jenis Kelamin</th>
+                  <th className='text-center'>Pendidikan Terakhir</th>
+                  <th className='text-center'>Status Pernikahan</th>
+                  <th className='text-center'>Nomer Telepon</th>
+                  <th className='text-center'>Nomer KTP</th>
+                  <th className='text-center'>Nomer NPWP</th>
+                  <th className='text-center'>Nomer KTA</th>
+                  <th className='text-center'>Tinggi Badan</th>
+                  <th className='text-center'>Berat Badan</th>
+                  <th className='text-center'>Ukuran Baju</th>
+                  <th className='text-center'>Ukuran Celana</th>
+                  <th className='text-center'>Ukuran Sepatu</th>
+                  <th className='text-center'>Alamat Tinggal</th>
+                  <th className='text-center'>Lampiran</th>
+                  <th className='text-center'>waktu</th>
+                  <th className='text-center'>Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 {listPelamar?.map((item: listPelamarType, index) => {
-                  console.log('f', listPelamar)
                   return (
-                    <tr key={index} className="bg-base-200">
-                      <th>{index + 1}</th>
-                      <td>{item.nama_lengkap}</td>
-                      <td>{item.nama_panggilan}</td>
-                      <td>{item.tempat_lahir}</td>
-                      <td>{item.tgl_lahir}</td>
-                      <td>{item.agama}</td>
-                      <td>{item.jenis_kelamin}</td>
-                      <td>{item.pendidikan_terakhir}</td>
-                      <td>{item.status_pernikahan}</td>
-                      <td>{item.no_telpon}</td>
-                      <td>{item.no_ktp}</td>
-                      <td>{item.no_npwp}</td>
-                      <td>{item.no_kta}</td>
-                      <td>{item.tinggi_badan}</td>
-                      <td>{item.berat_badan}</td>
-                      <td>{item.ukuran_baju}</td>
-                      <td>{item.ukuran_celana}</td>
-                      <td>{item.ukuran_sepatu}</td>
-                      <td>{item.alamat}</td>
-                      <td>
-                        <button onClick={() => download(item.lampiran)} className="btn btn-outline btn-sm btn-info"><BsDownload className='text-black' /></button>
+                    <tr key={item.id} className="bg-base-200">
+                      <th className='text-center'>{index + 1}</th>
+                      <td className='text-center'>{item.posisi}</td>
+                      <td className='text-center'>{item.nama_lengkap}</td>
+                      <td className='text-center'>{item.nama_panggilan}</td>
+                      <td className='text-center'>{item.tempat_lahir}</td>
+                      <td className='text-center'>{item.tgl_lahir}</td>
+                      <td className='text-center'>{item.agama}</td>
+                      <td className='text-center'>{item.jenis_kelamin}</td>
+                      <td className='text-center'>{item.pendidikan_terakhir}</td>
+                      <td className='text-center'>{item.status_pernikahan}</td>
+                      <td className='text-center'>{item.no_telpon}</td>
+                      <td className='text-center'>{item.no_ktp}</td>
+                      <td className='text-center'>{item.no_npwp}</td>
+                      <td className='text-center'>{item.no_kta}</td>
+                      <td className='text-center'>{item.tinggi_badan}</td>
+                      <td className='text-center'>{item.berat_badan}</td>
+                      <td className='text-center'>{item.ukuran_baju}</td>
+                      <td className='text-center'>{item.ukuran_celana}</td>
+                      <td className='text-center'>{item.ukuran_sepatu}</td>
+                      <td className='text-center'>{item.alamat}</td>
+                      <td className='text-left'>
+                        <a className='btn btn-outline btn-sm btn-info' href={`https://ujb.biz.id/api/requirement/download/${item.lampiran}`} download><BsDownload className='text-black' /></a>
                       </td>
-                      <td>{item.waktu}</td>
+                      <td>{item.date_time}</td>
                       <td className='flex flex-row gap-2'>
-                        <button className="btn btn-outline btn-sm rounded-sm btn-info border border-green-400 " onClick={() => navigate('/dashboard/detail-pelamar', { state: { item } })}><IoEyeOutline className='text-black' /></button>
-                        <label htmlFor='open_modal' className="btn btn-outline btn-sm rounded-sm btn-info border border-yellow-400"><TiEdit className='text-black' /></label>
-                        <ModalDelete id={item.id} deleteData={deletePelamar} closeModal={() => setModalDeletePelamar(false)} openModal={() => setModalDeletePelamar(true)} modalDelete={modalDeletePelamar} />
+                        <button className=" btn-sm rounded-sm border border-green-400 " onClick={() => navigate('/dashboard/detail-pelamar', { state: { item } })}><IoEyeOutline className='text-black' /></button>
+                        <button
+                          className='btn-sm rounded-sm  border border-red-400'
+                          type="button"
+                          onClick={() => deletePelamar(item.id, item.posisi)}
+                        >
+                          <MdDelete className='text-red-500 ' />
+                        </button>
                       </td>
                     </tr>
                   )
                 })}
               </tbody>
             </table>
-            {/* <Pagination items={LIST_PELAMAR} itemsPerPa ge={5} /> */}
           </div>
+          <Pagination paginationInfo={paginationPelamar} handlePageClick={handleNextPelamar} />
         </div>
       </div>
       <div className="w-full h-fit bg-[#fff] rounded-md space-y-5 px-3 py-2">
         <p className="font-bold">List Lowongan</p>
         <div className="flex flex-row  gap-5">
-          <ModalWrapper title='Tambahkan Lowongan +' showModal={showModal} setShowModal={() => setShowModal(true)} style='btn bg-blue-500 text-xs btn-sm hover:bg-blue-600 text-white'>
-            <ModalHeader closeModal={() => setShowModal(false)} title='Formulir Tambah Lowongan Kerja' />
+          {/* create list lowongan  */}
+          <ModalWrapper type='normal' title='Tambahkan Lowongan +' showModal={showModal} setShowModal={() => setShowModal(true)} style='btn bg-blue-500 text-xs btn-sm hover:bg-blue-600 text-white'>
+            <ModalHeader closeModal={() => setShowModal(false)} reset={resetLowongan} title='Formulir Tambah Lowongan Kerja' />
             <section className='w-[30vw] flex flex-col justify-center space-y-5 p-5' >
               <div >
                 <p className="py-1">Posisi</p>
-                <input type="text" placeholder="Type here" onChange={(e) => setPosisi(e.target.value)} className="input input-bordered input-sm w-full " />
+                {idUpdate
+                  ?
+                  <input type="text" disabled placeholder="Type here" value={selectedLowongan?.posisi} className="input input-bordered input-sm w-full " />
+                  :
+                  <input type="text" placeholder="Type here" value={posisi} onChange={(e) => setPosisi(e.target.value)} className="input input-bordered input-sm w-full " />
+                }
               </div>
               <div >
                 <p className="py-1 flex items-center gap-4">
@@ -303,16 +468,31 @@ const Dashbaord = () => {
                 </p>
                 <div className='space-y-2  h-32 overflow-y-auto flex flex-row'>
                   <div className='space-y-2 w-full h-32 overflow-y-auto flex flex-col'>
-                    {kualifikasiValues.map((value, index) => (
-                      <input
-                        key={index}
-                        type="text"
-                        placeholder="Masukkan kualifikasi anda"
-                        value={value}
-                        onChange={(e) => handleInputChange(e, index)}
-                        className="input input-bordered input-sm w-full max-w-md"
-                      />
-                    ))}
+                    {idUpdate
+                      ? <>
+                        {initialKualifikasiValues.map((_value, index) => (
+                          <input
+                            key={index}
+                            type="text"
+                            placeholder="Masukkan kualifikasi anda"
+                            value={initialKualifikasiValues[index]}
+                            onChange={(e) => handleInputChange(e, index)}
+                            className="input input-bordered input-sm w-full max-w-md"
+                          />
+                        ))}
+                      </>
+                      : <>
+                        {kualifikasiValues.map((value, index) => (
+                          <input
+                            key={index}
+                            type="text"
+                            placeholder="Masukkan kualifikasi anda"
+                            value={value}
+                            onChange={(e) => handleInputChange(e, index)}
+                            className="input input-bordered input-sm w-full max-w-md"
+                          />
+                        ))}
+                      </>}
                   </div>
                 </div>
               </div>
@@ -322,25 +502,42 @@ const Dashbaord = () => {
                   <button onClick={handleAddClickJobdesk} className=' h-10 text-blue-500 max-w-xs rounded-md'>add+</button>
                 </p>
                 <div className='space-y-2 h-32 overflow-y-auto flex flex-col'>
-                  {inputJobdesk.map((value, index) => (
-                    <input
-                      key={index}
-                      type="text"
-                      placeholder="Masukan Jobdesk ANda"
-                      value={value}
-                      onChange={(e) => handleInputChangeJobdesk(e, index)}
-                      className="input input-bordered input-sm w-full max-w-md"
-                    />
-                  ))}
+                  {idUpdate
+                    ? <>
+                      {initialJobdeskValues.map((_value, index) => (
+                        <input
+                          key={index}
+                          type="text"
+                          placeholder="Masukan Jobdesk ANda"
+                          value={initialJobdeskValues[index]}
+                          onChange={(e) => handleInputChangeJobdesk(e, index)}
+                          className="input input-bordered input-sm w-full max-w-md"
+                        />
+                      ))}</>
+
+                    : <>
+                      {inputJobdesk.map((value, index) => (
+                        <input
+                          key={index}
+                          type="text"
+                          placeholder="Masukan Jobdesk ANda"
+                          value={value}
+                          onChange={(e) => handleInputChangeJobdesk(e, index)}
+                          className="input input-bordered input-sm w-full max-w-md"
+                        />
+                      ))}</>}
+
                 </div>
               </div>
               <div className="modal-action">
-                <label onClick={() => setShowModal(false)} className="btn btn-outline text-xs px-5 hover:bg-gray-400 border hover:border-gray-500 border-gray-500 btn-sm">Batal</label>
-                <label className="btn btn-success text-white text-xs px-5 btn-sm" onClick={save}>Tambah</label>
+                <label onClick={() => { setShowModal(false), resetLowongan() }} className="btn btn-outline text-xs px-5 hover:bg-gray-400 border hover:border-gray-500 border-gray-500 btn-sm">Batal</label>
+                <label className="btn btn-success text-white text-xs px-5 btn-sm" onClick={idUpdate ? edit : save}>
+                  {isLoading ? <div className='flex flex-row justify-center items-center gap-2'><span className="loading loading-spinner loading-sm">kirim</span> <span>Loading..</span></div> : 'kirim'}
+                </label>
               </div>
             </section>
           </ModalWrapper>
-          <input type="text" placeholder="Type here" onChange={(e) => SetsearchTerm(e.target.value)} className="input input-bordered input-sm w-full max-w-xs" />
+          <input type="text" placeholder="Type here" onChange={(e) => setSearchTerm(e.target.value)} className="input input-bordered input-sm w-full max-w-xs" />
         </div>
         <div className="" >
           <div className="overflow-x-auto">
@@ -358,40 +555,45 @@ const Dashbaord = () => {
               <tbody>
                 {dataLowongan?.map((item: listLowonganType, index) => {
                   return (
-                    <tr key={index} className="bg-base-200">
+                    <tr key={item.id} className="bg-base-200">
                       <th>{index + 1}</th>
                       <td>{item.posisi}</td>
                       <td key={index} className='
                       '>
                         {item.kualifikasi.map((item: string, index: number) => {
                           return (
-                            <div>{index + 1}. {item}</div>
+                            <div key={index}>{index + 1}. {item}</div>
                           )
                         })}
                       </td>
-                      <td key={index} >
+                      <td >
                         {item.jobdesk.map((item: string, index) => {
                           return (
-                            <div >{index + 1}. {item}</div>
+                            <div key={index} >{index + 1}. {item}</div>
                           )
                         })}
                       </td>
                       <td>{item.waktu}</td>
                       <td className='flex flex-row gap-2'>
-                        <label htmlFor='open_modal' className="btn btn-outline btn-sm rounded-sm btn-info border border-yellow-400"><TiEdit className='text-black' /></label>
-                        <ModalDelete id={item.id} deleteData={deleteFunc} closeModal={() => setModalDelete(false)} openModal={() => setModalDelete(true)} modalDelete={modalDelete} />
+                        <label onClick={() => handleUpdateLowongan(item)} className="btn btn-outline btn-sm rounded-sm btn-info border border-yellow-400"><TiEdit className='text-black' /></label>
+                        <button
+                          className='btn-sm rounded-sm  border border-red-400'
+                          type="button"
+                          onClick={() => deleteFunc(item.id, item.posisi)}
+                        >
+                          <MdDelete className='text-red-500 ' />
+                        </button>
                       </td>
                     </tr>
                   )
                 })}
               </tbody>
             </table>
+            {/* pagination */}
+            <Pagination paginationInfo={paginationInfo} handlePageClick={handlePageClick} />
           </div>
         </div>
       </div>
-
-
-
     </div>
   )
 }
